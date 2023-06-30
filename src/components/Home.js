@@ -5,6 +5,7 @@ export const Home = () => {
   const labelCorreo = document.createElement('label');
   labelCorreo.textContent = 'Email';
   const inputCorreo = document.createElement('input');
+  inputCorreo.setAttribute('placeholder', 'correo');
   const labelContraseña = document.createElement('label');
   labelContraseña.textContent = 'Contraseña';
   const inputContraseña = document.createElement('input');
