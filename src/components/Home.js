@@ -2,10 +2,16 @@ import { onNavigate } from '../main.js';
 
 export const Home = () => {
   const HomeDiv = document.createElement('div');
+  HomeDiv.setAttribute('class', 'contenedor');
+  const logoHomeDiv = document.createElement('div');
+  logoHomeDiv.setAttribute('class', 'logoHomeDiv');
+  const logoImg = document.createElement('img');
+  logoImg.src = 'img/logo.png';
+  const formularioHomeDiv = document.createElement('div');
+  formularioHomeDiv.setAttribute('class', 'formularioHomeDiv');
   const labelCorreo = document.createElement('label');
   labelCorreo.textContent = 'Email';
   const inputCorreo = document.createElement('input');
-  inputCorreo.setAttribute('placeholder', 'correo');
   const labelContraseña = document.createElement('label');
   labelContraseña.textContent = 'Contraseña';
   const inputContraseña = document.createElement('input');
@@ -24,19 +30,20 @@ export const Home = () => {
     const valorInputCorreo = inputCorreo.value;
     const valorInputContraseña = inputContraseña.value;
 
-//console.log(valorInputCorreo, valorInputContraseña)
+    console.log(valorInputCorreo, valorInputContraseña);
+  });
 
-});
+  HomeDiv.appendChild(logoHomeDiv);
+  logoHomeDiv.appendChild(logoImg);
+  HomeDiv.appendChild(formularioHomeDiv);
+  formularioHomeDiv.appendChild(labelCorreo);
+  formularioHomeDiv.appendChild(inputCorreo);
+  formularioHomeDiv.appendChild(labelContraseña);
+  formularioHomeDiv.appendChild(inputContraseña);
+  formularioHomeDiv.appendChild(buttonLogin);
+  formularioHomeDiv.appendChild(buttonLoginGoogle);
+  formularioHomeDiv.appendChild(textoRegistro);
+  formularioHomeDiv.appendChild(buttonRegister);
 
-
-  HomeDiv.appendChild(labelCorreo);
-  HomeDiv.appendChild(inputCorreo);
-  HomeDiv.appendChild(labelContraseña);
-  HomeDiv.appendChild(inputContraseña);
-  HomeDiv.appendChild(buttonLogin);
-  HomeDiv.appendChild(buttonLoginGoogle);
-  HomeDiv.appendChild(textoRegistro);
-  HomeDiv.appendChild(buttonRegister);
- 
   return HomeDiv;
 };
