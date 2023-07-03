@@ -1,6 +1,6 @@
-import { onNavigate } from '../main.js';
+import { ingresarGoogle } from '../lib/functionFirebase.js';
 
-export const Home = () => {
+export const Home = (onNavigate) => {
   const HomeDiv = document.createElement('div');
   HomeDiv.setAttribute('class', 'contenedor');
   const logoHomeDiv = document.createElement('div');
@@ -24,14 +24,18 @@ export const Home = () => {
   const buttonRegister = document.createElement('button');
   buttonRegister.textContent = 'Regístrate';
 
-  buttonRegister.addEventListener('click', () => onNavigate('/register'));
+  buttonRegister.addEventListener('click', () => 
+  { console.log("hola");
+    onNavigate('/register')});
   buttonLogin.addEventListener('click', () => onNavigate('/login'));
   buttonLogin.addEventListener('click', () => {
     const valorInputCorreo = inputCorreo.value;
     const valorInputContraseña = inputContraseña.value;
 
-    console.log(valorInputCorreo, valorInputContraseña);
+    //console.log(valorInputCorreo, valorInputContraseña);
   });
+
+  buttonLoginGoogle.addEventListener('click', ingresarGoogle);
 
   HomeDiv.appendChild(logoHomeDiv);
   logoHomeDiv.appendChild(logoImg);
