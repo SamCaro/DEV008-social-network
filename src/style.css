@@ -1,0 +1,15 @@
+.contenedor{
+    background-color: aquamarine;
+    display: flex;
+
+}
+
+.formularioHomeDiv{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+    height: 440px;
+    background-color: rgb(238, 212, 179);
+}
