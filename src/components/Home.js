@@ -9,7 +9,7 @@ export const Home = (onNavigate) => {
   logoImg.src = 'img/logo.png';
   const formularioHomeDiv = document.createElement('div');
   formularioHomeDiv.setAttribute('class', 'formularioHomeDiv');
-  const textoIniciarSesion = document.createElement('h3');
+  const textoIniciarSesion = document.createElement('h2');
   textoIniciarSesion.textContent = 'Iniciar Sesión';
   const labelCorreo = document.createElement('label');
   labelCorreo.textContent = 'Email';
@@ -27,9 +27,7 @@ export const Home = (onNavigate) => {
   const buttonRegister = document.createElement('button');
   buttonRegister.textContent = 'Regístrate';
 
-  buttonRegister.addEventListener('click', () => 
-  { console.log("hola");
-    onNavigate('/register')});
+  buttonRegister.addEventListener('click', () => { onNavigate('/register')});
   buttonLogin.addEventListener('click', () => onNavigate('/login'));
   buttonLogin.addEventListener('click', () => {
     const valorInputCorreo = inputCorreo.value;
