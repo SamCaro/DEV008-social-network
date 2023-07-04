@@ -9,6 +9,8 @@ export const Home = (onNavigate) => {
   logoImg.src = 'img/logo.png';
   const formularioHomeDiv = document.createElement('div');
   formularioHomeDiv.setAttribute('class', 'formularioHomeDiv');
+  const textoIniciarSesion = document.createElement('h3');
+  textoIniciarSesion.textContent = 'Iniciar Sesión';
   const labelCorreo = document.createElement('label');
   labelCorreo.textContent = 'Email';
   const inputCorreo = document.createElement('input');
@@ -16,10 +18,11 @@ export const Home = (onNavigate) => {
   labelContraseña.textContent = 'Contraseña';
   const inputContraseña = document.createElement('input');
   const buttonLogin = document.createElement('button');
-  buttonLogin.textContent = 'Inicia sesión';
+  buttonLogin.textContent = 'Entrar';
   const buttonLoginGoogle = document.createElement('button');
   buttonLoginGoogle.textContent = 'Acceder con Google';
-  const textoRegistro = document.createElement('label');
+  buttonLoginGoogle.setAttribute('class', 'botonGoogle');
+  const textoRegistro = document.createElement('p');
   textoRegistro.textContent = '¿No tienes una cuenta?';
   const buttonRegister = document.createElement('button');
   buttonRegister.textContent = 'Regístrate';
@@ -32,7 +35,7 @@ export const Home = (onNavigate) => {
     const valorInputCorreo = inputCorreo.value;
     const valorInputContraseña = inputContraseña.value;
 
-    //console.log(valorInputCorreo, valorInputContraseña);
+    console.log(valorInputCorreo, valorInputContraseña);
   });
 
   buttonLoginGoogle.addEventListener('click', ingresarGoogle);
@@ -40,6 +43,7 @@ export const Home = (onNavigate) => {
   HomeDiv.appendChild(logoHomeDiv);
   logoHomeDiv.appendChild(logoImg);
   HomeDiv.appendChild(formularioHomeDiv);
+  formularioHomeDiv.appendChild(textoIniciarSesion);
   formularioHomeDiv.appendChild(labelCorreo);
   formularioHomeDiv.appendChild(inputCorreo);
   formularioHomeDiv.appendChild(labelContraseña);
