@@ -23,6 +23,7 @@ export const Login = (onNavigate) => {
   const buttonLoginGoogle = document.createElement('button');
   buttonLoginGoogle.textContent = 'Acceder con Google';
   buttonLoginGoogle.setAttribute('class', 'botonGoogle');
+
   const textoRegistro = document.createElement('p');
   textoRegistro.textContent = '¿No tienes una cuenta?';
   const buttonRegister = document.createElement('button');
