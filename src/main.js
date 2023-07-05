@@ -6,9 +6,9 @@ import { Login } from './components/Login.js';
 const rootDiv = document.getElementById('root');
 
 const routes = {
-  '/': Home,
+  '/': Login,
   '/register': Register,
-  '/login': Login,
+  '/home': Home,
 };
 
 const onNavigate = (pathname) => {
