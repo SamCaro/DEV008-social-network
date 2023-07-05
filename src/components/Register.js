@@ -50,7 +50,7 @@ export const Register = (onNavigate) => {
     signIn(valorInputCorreo, valorInputContraseña)
       .then((userCredential) => {
         alert("Bienvenido");
-        console.log(userCredential.user)
+        console.log(userCredential.user);
         // Signed in
         // const user = userCredential.user;
         // onNavigate("/home");
@@ -58,25 +58,20 @@ export const Register = (onNavigate) => {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log('error en singIn', errorCode, errorMessage)
+        console.log("error en singIn", errorCode, errorMessage);
 
-        const textoErrorCode = document.createElement('p')
+        const textoErrorCode = document.createElement("p");
         textoErrorCode.setAttribute("class", "textErrorSingIn");
 
-        if (errorCode === 'auth/email-already-in-use') {        
-          textoErrorCode.textContent = 'Tu email ya esta registrado'        
+        if (errorCode === "auth/email-already-in-use") {
+          textoErrorCode.textContent = "Tu email ya esta registrado";
+        } else if (errorCode === "auth/invalid-email") {
+          textoErrorCode.textContent = "Tu email es invalido";
+        } else if (errorCode === "auth/weak-password") {
+          textoErrorCode.textContent = "Tu contraseña es invalida";
         }
 
-        else if (errorCode === 'auth/invalid-email') {
-        alert('email invalido')
-        textoErrorCode.textContent = 'Tu email es invalido'
-        } 
-
-        else if (errorCode === 'auth/weak-password') {
-          textoErrorCode.textContent = 'Tu contraseña es invalida'
-        }
-
-        formularioHomeDiv.appendChild(textoErrorCode)
+        formularioHomeDiv.appendChild(textoErrorCode);
       });
   });
 

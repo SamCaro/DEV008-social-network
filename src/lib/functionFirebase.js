@@ -3,7 +3,7 @@ import { auth } from './configFirebase.js';
 
 export const ingresarGoogle = () => {
   const provider = new GoogleAuthProvider();
-  return signInWithPopup(auth, provider)
+  return signInWithRedirect(auth, provider)
     .then((result) => {
       console.log("hola");
       // This gives you a Google Access Token. You can use it to access the Google API.
