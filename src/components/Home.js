@@ -33,7 +33,7 @@ export const Home = (onNavigate) => {
     const valorInputCorreo = inputCorreo.value;
     const valorInputContraseña = inputContraseña.value;
 
-    //console.log(valorInputCorreo, valorInputContraseña);
+    console.log(valorInputCorreo, valorInputContraseña);
   });
 
   buttonLoginGoogle.addEventListener('click', ingresarGoogle);
