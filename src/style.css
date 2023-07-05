@@ -55,3 +55,8 @@ button {
     margin-bottom: 17px;
     color: #17554B;
 }
+
+.textErrorSingIn {
+    color: red;
+}
+
