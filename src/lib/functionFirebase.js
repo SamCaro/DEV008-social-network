@@ -1,9 +1,9 @@
-import { signInWithRedirect, GoogleAuthProvider } from 'firebase/auth';
+import { GoogleAuthProvider, signInWithRedirect } from 'firebase/auth';
 import { auth } from './configFirebase.js';
 
 export const ingresarGoogle = () => {
   const provider = new GoogleAuthProvider();
-  return signInWithRedirect(auth, provider)
+  return signInWithPopup(auth, provider)
     .then((result) => {
       console.log("hola");
       // This gives you a Google Access Token. You can use it to access the Google API.
