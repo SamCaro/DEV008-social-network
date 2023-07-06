@@ -24,6 +24,15 @@ export const Login = (onNavigate) => {
   buttonLoginGoogle.textContent = 'Acceder con Google';
   buttonLoginGoogle.setAttribute('class', 'botonGoogle');
 
+  const separator = document.createElement('section');
+  const lineaUno = document.createElement('hr');
+  lineaUno.setAttribute('class', 'lineRight');
+  const letra = document.createElement('p');
+  letra.textContent = 'o';
+  letra.setAttribute('class', 'letra');
+  const lineaDos = document.createElement('hr');
+  lineaDos.setAttribute('class', 'lineLeft');
+
   const textoRegistro = document.createElement('p');
   textoRegistro.textContent = '¿No tienes una cuenta?';
   const buttonRegister = document.createElement('button');
@@ -39,11 +48,19 @@ export const Login = (onNavigate) => {
   formularioHomeDiv.appendChild(inputContraseña);
   formularioHomeDiv.appendChild(buttonLogin);
   formularioHomeDiv.appendChild(buttonLoginGoogle);
+
+  formularioHomeDiv.appendChild(separator);
+  separator.appendChild(lineaUno);
+  separator.appendChild(letra);
+  separator.appendChild(lineaDos);
+
   formularioHomeDiv.appendChild(textoRegistro);
   formularioHomeDiv.appendChild(buttonRegister);
 
   buttonLoginGoogle.addEventListener('click', ingresarGoogle);
-  buttonRegister.addEventListener('click', () => { onNavigate('/register'); });
+  buttonRegister.addEventListener('click', () => {
+    onNavigate('/register');
+  });
 
   buttonLogin.addEventListener('click', () => {
     const valorInputCorreo = inputCorreo.value;
@@ -53,14 +70,19 @@ export const Login = (onNavigate) => {
       .then((userCredential) => {
         console.log(userCredential);
         // Signed in
-        // const user = userCredential.user;
-        // onNavigate("/home");
+        const user = userCredential.user;
+        // onNavigate('/home");
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        //console.log('error en singIn', errorCode, errorMessage);
 
+        // Eliminar mensaje de error anterior, si existe
+        const textoErrorCodeAnterior = document.querySelector('.textErrorSingIn');
+        if (textoErrorCodeAnterior) {
+          formularioHomeDiv.removeChild(textoErrorCodeAnterior);
+        }
+        // Agregar nuevo mensaje de error
         const textoErrorCode = document.createElement('p');
         textoErrorCode.setAttribute('class', 'textErrorSingIn');
         if (errorCode === 'auth/email-already-in-use') {
