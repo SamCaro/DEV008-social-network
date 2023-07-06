@@ -1,3 +1,4 @@
+import { async } from 'regenerator-runtime';
 import { signIn } from '../lib/configFirebase.js';
 import { ingresarGoogle } from '../lib/functionFirebase.js';
 
@@ -58,6 +59,7 @@ export const Login = (onNavigate) => {
   formularioHomeDiv.appendChild(buttonRegister);
 
   buttonLoginGoogle.addEventListener('click', ingresarGoogle);
+
   buttonRegister.addEventListener('click', () => {
     onNavigate('/register');
   });
@@ -70,12 +72,11 @@ export const Login = (onNavigate) => {
       .then((userCredential) => {
         console.log(userCredential);
         // Signed in
-        const user = userCredential.user;
+        // user = userCredential.user;
         // onNavigate('/home");
       })
       .catch((error) => {
         const errorCode = error.code;
-        const errorMessage = error.message;
 
         // Eliminar mensaje de error anterior, si existe
         const textoErrorCodeAnterior = document.querySelector('.textErrorSingIn');
