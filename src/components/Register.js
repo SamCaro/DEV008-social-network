@@ -20,8 +20,18 @@ export const Register = (onNavigate) => {
   const labelContraseña = document.createElement('label');
   labelContraseña.textContent = 'Contraseña';
   const inputContraseña = document.createElement('input');
-  const buttonLogin = document.createElement('button');
-  buttonLogin.textContent = 'Registrarse';
+  const buttonRegister = document.createElement('button');
+  buttonRegister.textContent = 'Registrarse';
+
+  const separator = document.createElement('section');
+  const lineaUno = document.createElement('hr');
+  lineaUno.setAttribute('class', 'lineRight');
+  const letra = document.createElement('p');
+  letra.textContent = 'o';
+  letra.setAttribute('class', 'letra');
+  const lineaDos = document.createElement('hr');
+  lineaDos.setAttribute('class', 'lineLeft');
+
   const textoInicio = document.createElement('p');
   textoInicio.textContent = '¿Ya tienes una cuenta?';
   const buttonInicio = document.createElement('button');
@@ -37,12 +47,18 @@ export const Register = (onNavigate) => {
   formularioHomeDiv.appendChild(inputCorreo);
   formularioHomeDiv.appendChild(labelContraseña);
   formularioHomeDiv.appendChild(inputContraseña);
-  formularioHomeDiv.appendChild(buttonLogin);
+  formularioHomeDiv.appendChild(buttonRegister);
+
+  formularioHomeDiv.appendChild(separator);
+  separator.appendChild(lineaUno);
+  separator.appendChild(letra);
+  separator.appendChild(lineaDos);
+
   formularioHomeDiv.appendChild(textoInicio);
   formularioHomeDiv.appendChild(buttonInicio);
 
   buttonInicio.addEventListener('click', () => onNavigate('/'));
-  buttonLogin.addEventListener('click', () => {
+  buttonRegister.addEventListener('click', () => {
     const valorInputNombre = inputNombre.value;
     const valorInputCorreo = inputCorreo.value;
     const valorInputContraseña = inputContraseña.value;
@@ -59,6 +75,13 @@ export const Register = (onNavigate) => {
         const errorMessage = error.message;
         console.log('error en singIn', errorCode, errorMessage);
 
+        // Eliminar mensaje de error anterior, si existe
+        const textoErrorCodeAnterior = document.querySelector('.textErrorSingIn');
+        if (textoErrorCodeAnterior) {
+          formularioHomeDiv.removeChild(textoErrorCodeAnterior);
+        }
+
+        // Agregar nuevo mensaje de error
         const textoErrorCode = document.createElement('p');
         textoErrorCode.setAttribute('class', 'textErrorSingIn');
 
