@@ -22,6 +22,7 @@ export const Register = (onNavigate) => {
   const inputContraseña = document.createElement('input');
   const buttonRegister = document.createElement('button');
   buttonRegister.textContent = 'Registrarse';
+  buttonRegister.id = 'registro';
 
   const separator = document.createElement('section');
   const lineaUno = document.createElement('hr');
@@ -58,9 +59,10 @@ export const Register = (onNavigate) => {
   formularioHomeDiv.appendChild(buttonInicio);
 
   buttonInicio.addEventListener('click', () => onNavigate('/'));
+
   buttonRegister.addEventListener('click', () => {
-    const valorInputNombre = inputNombre.value;
     const valorInputCorreo = inputCorreo.value;
+
     const valorInputContraseña = inputContraseña.value;
 
     signIn(valorInputCorreo, valorInputContraseña)
