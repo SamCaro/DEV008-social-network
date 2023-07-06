@@ -60,8 +60,21 @@ button {
     color: red;
 }
 
-footer{
-    display: flex;
-    align-items: center;
-    flex-direction: column;
+
+.lineRight{
+    width: 7em;
+    margin-right: 15px;
+    display: inline-block;
 }
+
+.lineLeft{
+    width: 8em;
+    margin-left: 10px;
+    display: inline-block;
+}
+
+.letra{
+    display: inline-block;
+    font-size: 18px;
+}
+
