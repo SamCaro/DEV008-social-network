@@ -11,7 +11,7 @@ body {
     
 }
 
-Img {
+.logoPrincipal {
     width: 50%;
 }
 
@@ -78,3 +78,47 @@ button {
     font-size: 18px;
 }
 
+.logoHome{
+    width: 10%;
+}
+
+main{
+    display: flex;
+    align-items: center;
+}
+
+.sectionOne{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.sectionTwo{
+    display: flex;
+    justify-content: center;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    background: #ffff;
+}
+
+textarea{
+    resize: none;
+}
+
+.divForm{
+    display: flex;
+    flex-direction: row;
+}
+.botonSalir{
+    background: #bbdde4;
+    color: #17554B;
+    margin-left: 80%;
+}
+
+.inputImagen{
+  border-radius: 50%;
+
+}
