@@ -6,6 +6,7 @@ export const Register = (onNavigate) => {
   const logoHomeDiv = document.createElement('div');
   logoHomeDiv.setAttribute('class', 'logoHomeDiv');
   const logoImg = document.createElement('img');
+  logoImg.setAttribute('class', 'logoPrincipal');
   logoImg.src = 'img/logo.png';
   const formularioHomeDiv = document.createElement('div');
   formularioHomeDiv.setAttribute('class', 'formularioHomeDiv');
