@@ -58,7 +58,10 @@ export const Login = (onNavigate) => {
   formularioHomeDiv.appendChild(textoRegistro);
   formularioHomeDiv.appendChild(buttonRegister);
 
-  buttonLoginGoogle.addEventListener('click', ingresarGoogle);
+  buttonLoginGoogle.addEventListener('click', () => ingresarGoogle()
+    .then(() => {
+      onNavigate('/home');
+    }));
 
   buttonRegister.addEventListener('click', () => {
     onNavigate('/register');
