@@ -1,47 +1,35 @@
 export const Home = (onNavigate) => {
   const main = document.createElement("main");
 
-  document.addEventListener("DOMContentLoaded", () => {
-    //cargar el DOM --> document.addEventListener('load', () => {
-
-    const sectionHeaderHome = document.createElement("section");
-    sectionHeaderHome.setAttribute("class", "sectionHeaderHome");
-    sectionHeaderHome.innerHTML = `
+  const sectionHeaderHome = document.createElement("section");
+  sectionHeaderHome.setAttribute("class", "sectionHeaderHome");
+  sectionHeaderHome.innerHTML = `
     <img class='logoHome'src='img/logo.png' alt='imagen-logo'>
     <button id='buttonExit' class='buttonExit'>Cerrar sesión</button>
   `;
-    main.appendChild(sectionHeaderHome);
+  main.appendChild(sectionHeaderHome);
 
-    //const buttonSalir = document.createElement('button');
-    //buttonSalir.setAttribute('class', 'botonSalir');
-    //buttonSalir.textContent = 'Cerrar sesión';
-    // HomeDiv.appendChild(buttonSalir);
+  const articleHome = document.createElement("article");
+  articleHome.setAttribute("class", "articleHome");
+  main.appendChild(articleHome);
 
-    const buttonExit = document.getElementById("buttonExit");
-
-    buttonExit.addEventListener("click", () => onNavigate("/"));
-
-    const articleHome = document.createElement("article");
-    articleHome.setAttribute("class", "articleHome");
-    main.appendChild(articleHome);
-
-    const sectionOne = document.createElement("section");
-    sectionOne.setAttribute("class", "sectionOne");
-    sectionOne.innerHTML = `
+  const sectionOne = document.createElement("section");
+  sectionOne.setAttribute("class", "sectionOne");
+  sectionOne.innerHTML = `
     <button class='botonSectionOnePaginaPrincipal'>Página principal</button>
     <button class='botonSectionOneSalidasRecreativas'>Salidas recreativas</button>
     <button class='botonSectionOneEntrenamientos'>Entrenamientos</button>
     <button class='botonSectionOneMecanica'>Mecánica</button>
     <button class='botonSectionOneVidaSana'>Vida sana</button>
     `;
-    articleHome.appendChild(sectionOne);
+  articleHome.appendChild(sectionOne);
 
-    const sectionTwo = document.createElement("section");
-    sectionTwo.setAttribute("class", "sectionTwo");
+  const sectionTwo = document.createElement("section");
+  sectionTwo.setAttribute("class", "sectionTwo");
 
-    sectionTwo.innerHTML = `
+  sectionTwo.innerHTML = `
   <div class='post'>
-     <textarea id='textArea' placeholder='¿A dónde quieres ir hoy?'></textarea>  
+     <textarea id='textArea'rows='4' placeholder='¿A dónde quieres ir hoy?'></textarea>  
      <div class='divForm'>
       <picture class='insert'>
        <img class='iconoForm' src='img/insert.png'/>
@@ -68,23 +56,28 @@ export const Home = (onNavigate) => {
   </div>
   `;
 
-    articleHome.appendChild(sectionTwo);
+  articleHome.appendChild(sectionTwo);
 
-    const postFeed = document.createElement("div");
-    postFeed.setAttribute("class", "postFeed");
-    postFeed.innerHTML = `
+  const postFeed = document.createElement("div");
+  postFeed.setAttribute("class", "postFeed");
+  postFeed.innerHTML = `
       <p id='textAreaView'>Busco amistades</p>
       <div class='divIconsFeed'>
       <img class='iconoForm' src='img/like.png'>
       <img class='iconoForm' src='img/comment.png'>
       </div>
     `;
-    sectionTwo.appendChild(postFeed);
+  sectionTwo.appendChild(postFeed);
+
+  document.addEventListener("DOMContentLoaded", () => {
+  //cargar el DOM --> document.addEventListener('load', () => {
+
+    const buttonExit = document.getElementById("buttonExit");
+    buttonExit.addEventListener("click", () => onNavigate("/"));
 
     const buttonPost = document.getElementById("buttonPost");
-
     buttonPost.addEventListener("click", (event) => {
-      //event.preventDefault(); // Evita la recarga de la página
+    //event.preventDefault(); // Evita la recarga de la página
 
       const textArea = document.getElementById("textArea");
       const valorTextArea = textArea.value;
