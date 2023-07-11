@@ -1,20 +1,20 @@
 export const Home = (onNavigate) => {
-  const main = document.createElement("main");
+  const main = document.createElement('main');
 
-  const sectionHeaderHome = document.createElement("section");
-  sectionHeaderHome.setAttribute("class", "sectionHeaderHome");
+  const sectionHeaderHome = document.createElement('section');
+  sectionHeaderHome.setAttribute('class', 'sectionHeaderHome');
   sectionHeaderHome.innerHTML = `
     <img class='logoHome'src='img/logo.png' alt='imagen-logo'>
     <button id='buttonExit' class='buttonExit'>Cerrar sesión</button>
   `;
   main.appendChild(sectionHeaderHome);
 
-  const articleHome = document.createElement("article");
-  articleHome.setAttribute("class", "articleHome");
+  const articleHome = document.createElement('article');
+  articleHome.setAttribute('class', 'articleHome');
   main.appendChild(articleHome);
 
-  const sectionOne = document.createElement("section");
-  sectionOne.setAttribute("class", "sectionOne");
+  const sectionOne = document.createElement('section');
+  sectionOne.setAttribute('class', 'sectionOne');
   sectionOne.innerHTML = `
     <button class='botonSectionOnePaginaPrincipal'>Página principal</button>
     <button class='botonSectionOneSalidasRecreativas'>Salidas recreativas</button>
@@ -24,8 +24,8 @@ export const Home = (onNavigate) => {
     `;
   articleHome.appendChild(sectionOne);
 
-  const sectionTwo = document.createElement("section");
-  sectionTwo.setAttribute("class", "sectionTwo");
+  const sectionTwo = document.createElement('section');
+  sectionTwo.setAttribute('class', 'sectionTwo');
 
   sectionTwo.innerHTML = `
   <div class='post'>
@@ -58,10 +58,10 @@ export const Home = (onNavigate) => {
 
   articleHome.appendChild(sectionTwo);
 
-  const postFeed = document.createElement("div");
-  postFeed.setAttribute("class", "postFeed");
+  const postFeed = document.createElement('div');
+  postFeed.setAttribute('class', 'postFeed');
   postFeed.innerHTML = `
-      <p id='textAreaView'>Busco amistades</p>
+      <p id='textAreaView'></p>
       <div class='divIconsFeed'>
       <img class='iconoForm' src='img/like.png'>
       <img class='iconoForm' src='img/comment.png'>
@@ -69,21 +69,14 @@ export const Home = (onNavigate) => {
     `;
   sectionTwo.appendChild(postFeed);
 
-  document.addEventListener("DOMContentLoaded", () => {
-  //cargar el DOM --> document.addEventListener('load', () => {
+  const buttonExit = sectionHeaderHome.querySelector('#buttonExit');
+  buttonExit.addEventListener('click', () => onNavigate('/'));
 
-    const buttonExit = document.getElementById("buttonExit");
-    buttonExit.addEventListener("click", () => onNavigate("/"));
-
-    const buttonPost = document.getElementById("buttonPost");
-    buttonPost.addEventListener("click", (event) => {
-    //event.preventDefault(); // Evita la recarga de la página
-
-      const textArea = document.getElementById("textArea");
-      const valorTextArea = textArea.value;
-      console.log(valorTextArea);
-      document.getElementById("textAreaView").textContent = valorTextArea;
-    });
+  const buttonPost = sectionTwo.querySelector('#buttonPost');
+  buttonPost.addEventListener('click', () => {
+    const textArea = sectionTwo.querySelector('#textArea');
+    const valorTextArea = textArea.value;
+    sectionTwo.querySelector('#textAreaView').textContent = valorTextArea;
   });
 
   return main;
