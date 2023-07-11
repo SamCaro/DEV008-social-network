@@ -61,7 +61,7 @@ export const Home = (onNavigate) => {
   const postFeed = document.createElement("div");
   postFeed.setAttribute("class", "postFeed");
   postFeed.innerHTML = `
-      <p id='textAreaView'>Busco amistades</p>
+      <p id='textAreaView'></p>
       <div class='divIconsFeed'>
       <img class='iconoForm' src='img/like.png'>
       <img class='iconoForm' src='img/comment.png'>
