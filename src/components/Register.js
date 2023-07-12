@@ -1,4 +1,4 @@
-import { signIn } from '../lib/configFirebase.js';
+import { signIn } from '../lib/functionFirebase';
 
 export const Register = (onNavigate) => {
   const HomeDiv = document.createElement('div');
