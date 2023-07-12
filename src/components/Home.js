@@ -1,3 +1,5 @@
+import { savePost } from '../lib/functionFirebase';
+
 export const Home = (onNavigate) => {
   const main = document.createElement('main');
 
@@ -72,12 +74,22 @@ export const Home = (onNavigate) => {
   const buttonExit = sectionHeaderHome.querySelector('#buttonExit');
   buttonExit.addEventListener('click', () => onNavigate('/'));
 
-  const buttonPost = sectionTwo.querySelector('#buttonPost');
+  /*const buttonPost = sectionTwo.querySelector('#buttonPost');
   buttonPost.addEventListener('click', () => {
     const textArea = sectionTwo.querySelector('#textArea');
     const valorTextArea = textArea.value;
-    sectionTwo.querySelector('#textAreaView').textContent = valorTextArea;
-  });
+    //sectionTwo.querySelector('#textAreaView').textContent = valorTextArea;
+    savePost(valorTextArea);
+  });*/
+
+  const buttonPost = sectionTwo.querySelector('#buttonPost');
+  buttonPost.addEventListener('click', publicar);
+  function publicar(event) {
+    const textArea = sectionTwo.querySelector('#textArea');
+    const textoPublicacion = textArea.value;
+   // sectionTwo.querySelector('#textAreaView').textContent = textoPublicacion;
+    savePost(textoPublicacion);
+  }
 
   return main;
 };
