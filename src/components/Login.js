@@ -1,5 +1,4 @@
-import { signIn } from '../lib/configFirebase.js';
-import { ingresarGoogle } from '../lib/functionFirebase.js';
+import { ingresarGoogle, signIn } from '../lib/functionFirebase.js';
 
 export const Login = (onNavigate) => {
   const HomeDiv = document.createElement('div');
