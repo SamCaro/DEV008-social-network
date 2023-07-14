@@ -63,14 +63,13 @@ export const Register = (onNavigate) => {
 
   buttonRegister.addEventListener('click', () => {
     const valorInputCorreo = inputCorreo.value;
-
     const valorInputContraseña = inputContraseña.value;
-
+    console.log(Window.localStorage);
     signIn(valorInputCorreo, valorInputContraseña)
       .then((userCredential) => {
-        console.log(userCredential.user);
+        //console.log(userCredential.user);
         // Signed in
-        // const user = userCredential.user;
+        //const user = userCredential.user;
         // onNavigate("/home");
       })
       .catch((error) => {
