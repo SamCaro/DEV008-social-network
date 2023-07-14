@@ -1,4 +1,4 @@
-import { savePost } from '../lib/functionFirebase';
+import { savePost, getPosts, deletePost, getPost } from '../lib/functionFirebase';
 
 export const Home = (onNavigate) => {
   const main = document.createElement('main');
@@ -10,6 +10,10 @@ export const Home = (onNavigate) => {
     <button id='buttonExit' class='buttonExit'>Cerrar sesión</button>
   `;
   main.appendChild(sectionHeaderHome);
+
+  const buttonExit = sectionHeaderHome.querySelector('#buttonExit');
+  buttonExit.addEventListener('click', () => onNavigate('/'));
+
 
   const articleHome = document.createElement('article');
   articleHome.setAttribute('class', 'articleHome');
@@ -57,39 +61,79 @@ export const Home = (onNavigate) => {
      </div>
   </div>
   `;
-
   articleHome.appendChild(sectionTwo);
+
+  const publicacion = () => {
+    const textArea = sectionTwo.querySelector('#textArea').value;
+    savePost(textArea).then(() => {
+      window.location.reload()
+    })
+  }
+
+  const buttonPost = sectionTwo.querySelector('#buttonPost');
+  buttonPost.addEventListener('click', publicacion);
 
   const postFeed = document.createElement('div');
   postFeed.setAttribute('class', 'postFeed');
-  postFeed.innerHTML = `
-      <p id='textAreaView'></p>
-      <div class='divIconsFeed'>
-      <img class='iconoForm' src='img/like.png'>
-      <img class='iconoForm' src='img/comment.png'>
-      </div>
-    `;
-  sectionTwo.appendChild(postFeed);
 
-  const buttonExit = sectionHeaderHome.querySelector('#buttonExit');
-  buttonExit.addEventListener('click', () => onNavigate('/'));
 
-  /*const buttonPost = sectionTwo.querySelector('#buttonPost');
-  buttonPost.addEventListener('click', () => {
-    const textArea = sectionTwo.querySelector('#textArea');
-    const valorTextArea = textArea.value;
-    //sectionTwo.querySelector('#textAreaView').textContent = valorTextArea;
-    savePost(valorTextArea);
-  });*/
+  //querySnapchot datos que existen 
+  const querySnapshot = getPosts()
+    .then(querySnapshot => {
 
-  const buttonPost = sectionTwo.querySelector('#buttonPost');
-  buttonPost.addEventListener('click', publicar);
-  function publicar(event) {
-    const textArea = sectionTwo.querySelector('#textArea');
-    const textoPublicacion = textArea.value;
-   // sectionTwo.querySelector('#textAreaView').textContent = textoPublicacion;
-    savePost(textoPublicacion);
-  }
+      let html = ''
+
+      querySnapshot.forEach(doc => {
+        //console.log(doc.data());
+        //console.log(doc.id)
+        const poster = doc.data()
+        html += `
+          <div>
+            <h3>${poster.user}</h3>
+            <p id='postView'>${poster.post}</p>
+          </div>
+          <div class='divIconsFeed'>
+           <img class='iconoForm' src='img/like.png'>
+           <img class='iconoForm' src='img/comment.png'>
+           <img class='iconoForm icon-delete' data-id="${doc.id}" src='img/borrar.png'>
+           <img class='iconoForm icon-edit' data-id="${doc.id}" src='img/editar.png'>
+          </div>
+        `
+      });
+      postFeed.innerHTML = html
+      sectionTwo.appendChild(postFeed);
+
+
+      const iconsDelete = postFeed.querySelectorAll('.icon-delete');
+      //console.log(iconsDelete)
+      iconsDelete.forEach(icon => {
+        icon.addEventListener('click', ({ target: { dataset } }) => {
+          //console.log('deleting')
+          //console.log(e.target.dataset.id)
+          //console.log(dataset.id)
+          deletePost(dataset.id);
+        });
+      });
+
+      const iconEdit = postFeed.querySelectorAll('.icon-edit');
+      iconEdit.forEach((icon) => {
+        //console.log(icon);
+        icon.addEventListener('click', (e) => {
+          //console.log(e.target.dataset.id)
+          const doc = getPost(e.target.dataset.id)
+          // .then(e => {
+            //console.log(doc.data())
+          // });              
+        });
+      });
+
+    })
+    .catch(error => {
+      //console.log("Error al obtener los datos:", error);
+    });
+
+
+   
 
   return main;
 };
