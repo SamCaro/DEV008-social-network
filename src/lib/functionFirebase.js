@@ -1,6 +1,7 @@
 import { GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword } from 'firebase/auth';
+import { collection, addDoc, getDocs, deleteDoc, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { auth, db } from './configFirebase.js';
-import { collection, addDoc, getDocs, deleteDoc, doc, getDoc } from 'firebase/firestore';
+
 
 export const ingresarGoogle = () => {
   const provider = new GoogleAuthProvider();
@@ -27,4 +28,9 @@ export const getPosts = () => getDocs(collection(db, 'post'));
 export const deletePost = (id) => deleteDoc(doc(db, 'post', id));
 
 //obtener un post
-export const getPost = (id) => getDoc(doc(db, 'post', id))
+export const getPost = (id) => getDoc(doc(db, 'post', id));
+
+//actualizar un post
+export const updatePost = (id, newFields) => {
+  return updateDoc(doc(db, 'post', id), newFields)
+  }
