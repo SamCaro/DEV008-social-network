@@ -1,4 +1,4 @@
-import { savePost, getPosts, deletePost, getPost } from '../lib/functionFirebase';
+import { savePost, getPosts, deletePost, getPost, updatePost } from '../lib/functionFirebase';
 
 export const Home = (onNavigate) => {
   const main = document.createElement('main');
@@ -13,7 +13,6 @@ export const Home = (onNavigate) => {
 
   const buttonExit = sectionHeaderHome.querySelector('#buttonExit');
   buttonExit.addEventListener('click', () => onNavigate('/'));
-
 
   const articleHome = document.createElement('article');
   articleHome.setAttribute('class', 'articleHome');
@@ -63,9 +62,11 @@ export const Home = (onNavigate) => {
   `;
   articleHome.appendChild(sectionTwo);
 
+  //Lo que guarda el valor del textArea
   const publicacion = () => {
     const textArea = sectionTwo.querySelector('#textArea').value;
-    savePost(textArea).then(() => {
+    savePost(textArea)
+    .then(() => {
       window.location.reload()
     })
   }
@@ -90,13 +91,13 @@ export const Home = (onNavigate) => {
         html += `
           <div>
             <h3>${poster.user}</h3>
-            <p id='postView'>${poster.post}</p>
+            <textarea id='postView'>${poster.post}</textarea>
           </div>
           <div class='divIconsFeed'>
            <img class='iconoForm' src='img/like.png'>
            <img class='iconoForm' src='img/comment.png'>
            <img class='iconoForm icon-delete' data-id="${doc.id}" src='img/borrar.png'>
-           <img class='iconoForm icon-edit' data-id="${doc.id}" src='img/editar.png'>
+           <img class='iconoForm icon-edit' id='edit' data-id="${doc.id}" src='img/editar.png'>
           </div>
         `
       });
@@ -106,34 +107,49 @@ export const Home = (onNavigate) => {
 
       const iconsDelete = postFeed.querySelectorAll('.icon-delete');
       //console.log(iconsDelete)
-      iconsDelete.forEach(icon => {
+      iconsDelete.forEach((icon) => {
         icon.addEventListener('click', ({ target: { dataset } }) => {
           //console.log('deleting')
           //console.log(e.target.dataset.id)
           //console.log(dataset.id)
-          deletePost(dataset.id);
+          deletePost(dataset.id)
+          .then(() => {
+            window.location.reload()
+          });
         });
       });
 
       const iconEdit = postFeed.querySelectorAll('.icon-edit');
       iconEdit.forEach((icon) => {
-        //console.log(icon);
-        icon.addEventListener('click', (e) => {
-          //console.log(e.target.dataset.id)
-          const doc = getPost(e.target.dataset.id)
-          // .then(e => {
-            //console.log(doc.data())
-          // });              
-        });
-      });
+        icon.addEventListener('click', ({ target: { dataset } }) => {
+          const idPost = dataset.id;
+          const figcaptionEdit = postFeed.querySelector('#edit');
 
-    })
+      const editPost = () => {
+        const newPostValue = postView.value;
+        updatePost(idPost, {
+          post: newPostValue,
+        })
+          .then(() => {
+            console.log('El documento se actualizó correctamente en Firebase.');
+            figcaptionEdit.innerHTML = "texto";
+            figcaptionEdit.removeEventListener('click', editPost);
+          });
+      };
+
+      getPost(idPost)
+      .then(doc => {
+        postView.value = doc.data().post;
+        figcaptionEdit.innerHTML = "hola";
+        figcaptionEdit.addEventListener('click', editPost);
+      });
+  });
+});
+
+    /*
     .catch(error => {
       //console.log("Error al obtener los datos:", error);
-    });
-
-
-   
-
+    }); */
+  });
   return main;
 };
