@@ -3,7 +3,7 @@ import { savePost, getPosts, deletePost, getPost, updatePost } from '../lib/func
 export const Home = (onNavigate) => {
   const main = document.createElement('main');
 
-  const sectionHeaderHome = document.createElement('section');
+  const sectionHeaderHome = document.createElement('header');
   sectionHeaderHome.setAttribute('class', 'sectionHeaderHome');
   sectionHeaderHome.innerHTML = `
     <img class='logoHome'src='img/logo.png' alt='imagen-logo'>
@@ -33,8 +33,8 @@ export const Home = (onNavigate) => {
   sectionTwo.setAttribute('class', 'sectionTwo');
 
   sectionTwo.innerHTML = `
-  <div class='post'>
-     <textarea id='textArea'rows='4' placeholder='¿A dónde quieres ir hoy?'></textarea>  
+  <aside class='post'>
+     <textarea class='textarea' id='textArea'rows='4' placeholder='¿A dónde quieres ir hoy?'></textarea>  
      <div class='divForm'>
       <picture class='insert'>
        <img class='iconoForm' src='img/insert.png'/>
@@ -58,7 +58,7 @@ export const Home = (onNavigate) => {
        </picture>
        <button id='buttonPost' class='buttonPost'>Publicar</button>
      </div>
-  </div>
+  </aside>
   `;
   articleHome.appendChild(sectionTwo);
 
@@ -85,10 +85,9 @@ export const Home = (onNavigate) => {
   const querySnapshot = getPosts()
     .then(querySnapshot => {
   
-       if(querySnapshot.size > 0){
+      /* if(querySnapshot.size > 0){
         postFeed.setAttribute('class', 'postFeed');
-        
-       }
+       }*/
 
       let html = '';
 
@@ -98,15 +97,15 @@ export const Home = (onNavigate) => {
         const poster = doc.data() //Lo que está adentro del QuerySnapshot
         //console.log(poster)
         html += `
-          <div>
+          <div class='postFeed post'>
             <h3>${poster.user}</h3>
-            <textarea disabled id='postView'>${poster.post}</textarea>
-          </div>
+            <textarea disabled class='textarea' id='postView' rows='4' >${poster.post}</textarea>
           <div class='divIconsFeed'>
            <img class='iconoForm' src='img/like.png'>
            <img class='iconoForm' src='img/comment.png'>
            <img class='iconoForm icon-delete' data-id="${doc.id}" src='img/borrar.png'>
            <img class='iconoForm icon-edit' id='edit' data-id="${doc.id}" src='img/editar.png'>
+          </div>
           </div>
         `
       });
@@ -152,12 +151,12 @@ export const Home = (onNavigate) => {
           });
      // };
 
-    /*  getPost(idPost)
+     getPost(idPost)
       .then(doc => {
         postView.value = doc.data().post;
         figcaptionEdit.src = "./img/editar.png";
         figcaptionEdit.addEventListener('click', editPost);
-      });*/
+      });
   });
 });
 

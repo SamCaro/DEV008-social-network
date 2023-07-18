@@ -28,8 +28,8 @@ body {
 
 
 input {
-    width: 200px;
-    height: 30px;
+    width: 250px;
+    height: 35px;
     border-radius: 30px;
     border: none;
     background: #E8F1F3;
@@ -40,10 +40,11 @@ button {
     margin-bottom: 17px;
     border-radius: 30px;
     border: none;
-    width: 200px;
-    height: 30px;
+    width: 250px;
+    height: 35px;
     background: #17554B;
     color: #E8F1F3;
+    font-size: 19px;
 }
 
 .botonGoogle {
@@ -62,13 +63,13 @@ button {
 
 
 .lineRight{
-    width: 7em;
+    width: 6em;
     margin-right: 15px;
     display: inline-block;
 }
 
 .lineLeft{
-    width: 8em;
+    width: 6em;
     margin-left: 10px;
     display: inline-block;
 }
@@ -115,7 +116,7 @@ button {
     border-radius: 20px;
 }
 
-textarea{
+.textarea{
     resize: none;
     border: none;
     border-radius: 20px;
