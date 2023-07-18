@@ -65,33 +65,42 @@ export const Home = (onNavigate) => {
   //Lo que guarda el valor del textArea
   const publicacion = () => {
     const textArea = sectionTwo.querySelector('#textArea').value;
-    savePost(textArea)
+    const author = JSON.parse(localStorage.getItem('user'));  //transforma string a objeto
+    savePost(textArea, author.displayName)
     .then(() => {
+      //console.log("adentro del then")
       window.location.reload()
     })
+    //console.log("afuera del then")
   }
 
   const buttonPost = sectionTwo.querySelector('#buttonPost');
   buttonPost.addEventListener('click', publicacion);
 
   const postFeed = document.createElement('div');
-  postFeed.setAttribute('class', 'postFeed');
+ 
 
 
   //querySnapchot datos que existen 
   const querySnapshot = getPosts()
     .then(querySnapshot => {
+  
+       if(querySnapshot.size > 0){
+        postFeed.setAttribute('class', 'postFeed');
+        
+       }
 
-      let html = ''
+      let html = '';
 
-      querySnapshot.forEach(doc => {
+      querySnapshot.forEach((doc) => { //cada elemento dentro del querySnapshot se llama "doc"
         //console.log(doc.data());
         //console.log(doc.id)
-        const poster = doc.data()
+        const poster = doc.data() //Lo que está adentro del QuerySnapshot
+        //console.log(poster)
         html += `
           <div>
             <h3>${poster.user}</h3>
-            <textarea id='postView'>${poster.post}</textarea>
+            <textarea disabled id='postView'>${poster.post}</textarea>
           </div>
           <div class='divIconsFeed'>
            <img class='iconoForm' src='img/like.png'>
@@ -125,24 +134,30 @@ export const Home = (onNavigate) => {
           const idPost = dataset.id;
           const figcaptionEdit = postFeed.querySelector('#edit');
 
-      const editPost = () => {
+      //const editPost = () => {
+        
+        const postView = postFeed.querySelector('#postView');
+        postView.disabled = false;
         const newPostValue = postView.value;
         updatePost(idPost, {
           post: newPostValue,
         })
           .then(() => {
             console.log('El documento se actualizó correctamente en Firebase.');
-            figcaptionEdit.innerHTML = "texto";
-            figcaptionEdit.removeEventListener('click', editPost);
+            figcaptionEdit.src = "./img/check.png";
+            //figcaptionEdit.removeEventListener('click', editPost);
+          })
+          .catch(error => {
+             console.log("Error al obtener los datos:", error);
           });
-      };
+     // };
 
-      getPost(idPost)
+    /*  getPost(idPost)
       .then(doc => {
         postView.value = doc.data().post;
-        figcaptionEdit.innerHTML = "hola";
+        figcaptionEdit.src = "./img/editar.png";
         figcaptionEdit.addEventListener('click', editPost);
-      });
+      });*/
   });
 });
 
