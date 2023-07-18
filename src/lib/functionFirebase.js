@@ -1,4 +1,4 @@
-import { GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword } from 'firebase/auth';
+import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { collection, addDoc, getDocs, deleteDoc, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { auth, db } from './configFirebase.js';
 
@@ -13,9 +13,9 @@ export function signIn(email, password) {
 }
 
 //añadir documento a la coleccion y guardarlo
- export const savePost = (publish) => {
+ export const savePost = (publish, userName) => {
 return addDoc(collection(db, "post"), {
-  user: "Sofía",
+  user: userName,
   post: publish,
 });
 //console.log("Document written with ID: ", docRef.id);

@@ -57,10 +57,12 @@ export const Login = (onNavigate) => {
   formularioHomeDiv.appendChild(textoRegistro);
   formularioHomeDiv.appendChild(buttonRegister);
 
-  buttonLoginGoogle.addEventListener('click', () => ingresarGoogle()
-    .then(() => {
+  buttonLoginGoogle.addEventListener('click', () => { ingresarGoogle()
+    .then((response) => {
+      console.log(response.user)
+      localStorage.setItem('user', JSON.stringify(response.user))
       onNavigate('/home');
-    }));
+    })});
 
   buttonRegister.addEventListener('click', () => {
     onNavigate('/register');
