@@ -57,6 +57,16 @@ export const Login = (onNavigate) => {
   formularioHomeDiv.appendChild(textoRegistro);
   formularioHomeDiv.appendChild(buttonRegister);
 
+  inputCorreo.addEventListener('keyup', (e) => {
+  const valueInputCorreo = e.target.value;
+  inputCorreo.value = valueInputCorreo.replace(/\s/g, ""); //espacios en blanco
+  });
+
+  inputContraseña.addEventListener('keyup', (e) => {
+    const valueInputContraseña = e.target.value;
+   inputContraseña.value = valueInputContraseña.replace(/\w/g, "•"); //hider
+   });
+
   buttonLoginGoogle.addEventListener('click', () => { ingresarGoogle()
     .then((response) => {
       console.log(response.user)

@@ -59,6 +59,20 @@ export const Register = (onNavigate) => {
   formularioHomeDiv.appendChild(textoInicio);
   formularioHomeDiv.appendChild(buttonInicio);
 
+  //Quitar espacios en blanco
+  inputCorreo.addEventListener('keyup', (e) => {
+  const valueInputCorreo = e.target.value;
+  inputCorreo.value = valueInputCorreo.replace(/\s/g, "");
+  });
+
+ //Reemplazar caracteres por hiden
+ inputContraseña.addEventListener('keyup', (e) =>{
+  const valueInputContraseña = e.target.value;
+ inputContraseña.value = valueInputContraseña.replace(/\w/g, "•");
+ });
+
+
+
   buttonInicio.addEventListener('click', () => onNavigate('/'));
 
   buttonRegister.addEventListener('click', () => {
