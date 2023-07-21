@@ -29,6 +29,7 @@ export const Home = (onNavigate) => {
     `;
   articleHome.appendChild(sectionOne);
 
+  //Sección dos
   const sectionTwo = document.createElement('section');
   sectionTwo.setAttribute('class', 'sectionTwo');
 
@@ -78,8 +79,6 @@ export const Home = (onNavigate) => {
   buttonPost.addEventListener('click', publicacion);
 
   const postFeed = document.createElement('div');
- 
-
 
   //querySnapchot datos que existen 
   const querySnapshot = getPosts()
@@ -94,30 +93,28 @@ export const Home = (onNavigate) => {
       querySnapshot.forEach((doc) => { //cada elemento dentro del querySnapshot se llama "doc"
         //console.log(doc.data());
         //console.log(doc.id)
-        const poster = doc.data() //Lo que está adentro del QuerySnapshot
-        //console.log(poster)
+        const publicacion = doc.data() //Lo que está adentro del QuerySnapshot
+        //console.log(publicacion)
         html += `
           <div class='postFeed post'>
-            <h3>${poster.user}</h3>
-            <textarea disabled class='textarea' id='postView' rows='4' >${poster.post}</textarea>
+            <h3>${publicacion.user}</h3>
+            <textarea disabled class='textarea' id="${doc.id}" rows='4' >${publicacion.post}</textarea>
           <div class='divIconsFeed'>
            <img class='iconoForm' src='img/like.png'>
            <img class='iconoForm' src='img/comment.png'>
            <img class='iconoForm icon-delete' data-id="${doc.id}" src='img/borrar.png'>
-           <img class='iconoForm icon-edit' id='edit' data-id="${doc.id}" src='img/editar.png'>
+           <img class='iconoForm icon-edit' data-id="${doc.id}" src='img/editar.png'>
           </div>
           </div>
         `
       });
-      postFeed.innerHTML = html
+      postFeed.innerHTML = html;
       sectionTwo.appendChild(postFeed);
 
-
+//Función para eliminar publicaciones
       const iconsDelete = postFeed.querySelectorAll('.icon-delete');
-      //console.log(iconsDelete)
       iconsDelete.forEach((icon) => {
-        icon.addEventListener('click', ({ target: { dataset } }) => {
-          //console.log('deleting')
+        icon.addEventListener('click', ({ target: { dataset } }) => { //Dataset trae todos los atributos que empiecen con data. 
           //console.log(e.target.dataset.id)
           //console.log(dataset.id)
           deletePost(dataset.id)
@@ -127,43 +124,39 @@ export const Home = (onNavigate) => {
         });
       });
 
-      const iconEdit = postFeed.querySelectorAll('.icon-edit');
-      iconEdit.forEach((icon) => {
-        icon.addEventListener('click', ({ target: { dataset } }) => {
-          const idPost = dataset.id;
-          const figcaptionEdit = postFeed.querySelector('#edit');
+// Función para editar publicaciones
+const iconEdit = postFeed.querySelectorAll('.icon-edit');
+iconEdit.forEach((edit) => {
+  edit.addEventListener('click', async (e) => {
+ console.log(e.target.dataset.id);
+ const personalIdPost = e.target.dataset.id;
+ const dataPost = await getPost(personalIdPost);
+ console.log(dataPost);
 
-      //const editPost = () => {
-        
-        const postView = postFeed.querySelector('#postView');
-        postView.disabled = false;
-        const newPostValue = postView.value;
-        updatePost(idPost, {
-          post: newPostValue,
-        })
-          .then(() => {
-            console.log('El documento se actualizó correctamente en Firebase.');
-            figcaptionEdit.src = "./img/check.png";
-            //figcaptionEdit.removeEventListener('click', editPost);
-          })
-          .catch(error => {
-             console.log("Error al obtener los datos:", error);
-          });
-     // };
+ const postContent = dataPost.data();
+ console.log(postContent);
+ const textAreaEdit = postFeed.querySelector('#' + personalIdPost);
+ console.log(textAreaEdit);
+ textAreaEdit.disabled = false;
 
-     getPost(idPost)
-      .then(doc => {
-        postView.value = doc.data().post;
-        figcaptionEdit.src = "./img/editar.png";
-        figcaptionEdit.addEventListener('click', editPost);
-      });
-  });
+//Actualización de post
+ const newPostValue = textAreaEdit.value;
+ updatePost(personalIdPost, {
+  post: newPostValue,
+ })
+ .then(() => {
+  console.log('El documento se actualizó correctamente en Firebase.');
+  iconEdit.src = './img/check.png';
+ })
+
+ .catch(error => {
+  console.log("Error al obtener los datos:", error);
+  
+});
+});
 });
 
-    /*
-    .catch(error => {
-      //console.log("Error al obtener los datos:", error);
-    }); */
+
   });
   return main;
 };
