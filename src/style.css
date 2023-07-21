@@ -231,3 +231,18 @@ footer {
     padding: 10px 2px;
     font-size: 10px;
 }
+
+.userHeader{
+    display: flex;
+    align-items: center;
+}
+
+.userHeader h3 {
+    margin-right: 10px; /* Espacio entre el texto y la imagen */
+  }
+  
+  .userPhoto {
+    width: 15%; /* La imagen ocupa solo el 20% del ancho del div */
+    border-radius: 50%; /* La imagen se muestra redondeada */
+    overflow: hidden; /* Se recorta el contenido que exceda el círculo */
+  }
