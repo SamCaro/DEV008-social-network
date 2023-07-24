@@ -1,5 +1,5 @@
 import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
-import { collection, addDoc, getDocs, deleteDoc, doc, getDoc, updateDoc } from 'firebase/firestore';
+import { collection, addDoc, getDocs, deleteDoc, doc, getDoc, updateDoc, orderBy, query } from 'firebase/firestore';
 import { auth, db } from './configFirebase.js';
 
 
@@ -13,16 +13,23 @@ export function signIn(email, password) {
 }
 
 //añadir documento a la coleccion y guardarlo
- export const savePost = (publish, userName) => {
+export const savePost = (userName, publish, photoURL, dateNow) => {
 return addDoc(collection(db, "post"), {
   user: userName,
   post: publish,
+  photo: photoURL,
+  date: dateNow,
 });
 //console.log("Document written with ID: ", docRef.id);
 }
 
 //obtener posts 
-export const getPosts = () => getDocs(collection(db, 'post'));
+//export const getPosts = () => getDocs(collection(db, 'post'));
+export const getPosts = () => {
+  const postReference = collection(db, 'post');
+  const postOrdered = query(postReference, orderBy('date', 'desc'));
+  return getDocs(postOrdered);
+};
 
 //eliminar post
 export const deletePost = (id) => deleteDoc(doc(db, 'post', id));
@@ -34,3 +41,14 @@ export const getPost = (id) => getDoc(doc(db, 'post', id));
 export const updatePost = (id, newFields) => {
   return updateDoc(doc(db, 'post', id), newFields)
   }
+
+/*
+  export const addLike = (idPost) => {
+    user = userName,
+    like = Boolean
+    postRef = doc(db, 'post', idPost);
+    updateDoc(postRef, {
+      likes: arrayUnion(user),
+    })
+  } 
+*/

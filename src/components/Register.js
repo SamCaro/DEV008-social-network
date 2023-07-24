@@ -78,12 +78,26 @@ export const Register = (onNavigate) => {
   buttonRegister.addEventListener('click', () => {
     const valorInputCorreo = inputCorreo.value;
     const valorInputContraseña = inputContraseña.value;
-    console.log(Window.localStorage);
-    signIn(valorInputCorreo, valorInputContraseña)
-      .then((userCredential) => {
-        //console.log(userCredential.user);
-        // Signed in
+    const valorInputNombre = inputNombre.value;
+
+  //Aquí guardamos los datos del usuario en el localStorage
+    const userData = {
+      nombre: valorInputNombre,
+      correo: valorInputCorreo,
+      contraseña: valorInputContraseña,
+      photo: '',
+    };
+
+    localStorage.setItem('user', JSON.stringify(userData));
+
+   console.log(userData);
+   
+    signIn(valorInputCorreo, valorInputContraseña, valorInputNombre)
+      .then(() => {
         //const user = userCredential.user;
+       //console.log(userCredential.user);
+        // Signed in
+        
         // onNavigate("/home");
       })
       .catch((error) => {

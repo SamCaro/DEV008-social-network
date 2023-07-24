@@ -67,10 +67,19 @@ export const Home = (onNavigate) => {
   const publicacion = () => {
     const textArea = sectionTwo.querySelector('#textArea').value;
     const author = JSON.parse(localStorage.getItem('user'));  //transforma string a objeto
-    savePost(textArea, author.displayName)
+    const dateNow = new Date(Date.now());
+    console.log(dateNow)
+    console.log(author)
+
+    /*if(publicacion.photo === false){
+      return 'Usuaria'
+    }*/
+
+    savePost(author.displayName, textArea, author.photoURL, dateNow)
+
     .then(() => {
       //console.log("adentro del then")
-      window.location.reload()
+      //window.location.reload()
     })
     //console.log("afuera del then")
   }
@@ -94,10 +103,16 @@ export const Home = (onNavigate) => {
         //console.log(doc.data());
         //console.log(doc.id)
         const publicacion = doc.data() //Lo que está adentro del QuerySnapshot
-        //console.log(publicacion)
+        console.log(publicacion)
         html += `
           <div class='postFeed post'>
-            <h3>${publicacion.user}</h3>
+          <div class='userHeader'>
+          <img class='userPhoto' src='${publicacion.photo}'>
+          <h3 class='name'>${publicacion.user}</h3>
+          <div class='dateBox'>
+          <h4 class='date'>${publicacion.date.toDate().toLocaleDateString('en-US')}</h4> 
+          </div>
+          </div>
             <textarea disabled class='textarea' id="${doc.id}" rows='4' >${publicacion.post}</textarea>
           <div class='divIconsFeed'>
            <img class='iconoForm' src='img/like.png'>
@@ -108,6 +123,7 @@ export const Home = (onNavigate) => {
           </div>
         `
       });
+      //<h4 class='date'>${new Date(publicacion.date.seconds * 1000).toLocaleDateString('en-US')}</h4>
       postFeed.innerHTML = html;
       sectionTwo.appendChild(postFeed);
 
@@ -126,36 +142,44 @@ export const Home = (onNavigate) => {
 
 // Función para editar publicaciones
 const iconEdit = postFeed.querySelectorAll('.icon-edit');
-iconEdit.forEach((edit) => {
-  edit.addEventListener('click', async (e) => {
- console.log(e.target.dataset.id);
- const personalIdPost = e.target.dataset.id;
- const dataPost = await getPost(personalIdPost);
- console.log(dataPost);
+iconEdit.forEach((icon) => {
+  let editando = false;
 
- const postContent = dataPost.data();
- console.log(postContent);
- const textAreaEdit = postFeed.querySelector('#' + personalIdPost);
- console.log(textAreaEdit);
- textAreaEdit.disabled = false;
+  icon.addEventListener('click', async (e) => {
+ //console.log(e.target.dataset.id);
+ const personalIdPost = e.target.dataset.id;
+ //const dataPost = await getPost(personalIdPost);
+ //console.log(dataPost);
+ //const postContent = dataPost.data();
+ //console.log(postContent);
+
+ const textAreaEdit = document.getElementById(personalIdPost);
+ //console.log(textAreaEdit);
 
 //Actualización de post
- const newPostValue = textAreaEdit.value;
- updatePost(personalIdPost, {
-  post: newPostValue,
- })
- .then(() => {
-  console.log('El documento se actualizó correctamente en Firebase.');
-  iconEdit.src = './img/check.png';
- })
+if (!editando) {
+  console.log('El documento se puede editar.');
+  icon.src = 'img/update.png';
+  textAreaEdit.disabled = false;
+} else {
+  const newPostValue = textAreaEdit.value;
 
- .catch(error => {
-  console.log("Error al obtener los datos:", error);
-  
-});
-});
-});
+  try {
+    await updatePost(personalIdPost, {
+      post: newPostValue,
+    })
 
+    console.log('El documento se actualizo corectamente.');
+    icon.src = 'img/check.png';
+    textAreaEdit.disabled = true;
+
+  } catch (error) {
+    console.log('Error al obtener los datos:', error);
+  }
+}
+editando = !editando; // si uno es true el otro es falso.
+})
+})
 
   });
   return main;
