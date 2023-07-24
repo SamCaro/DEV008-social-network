@@ -107,9 +107,11 @@ export const Home = (onNavigate) => {
         html += `
           <div class='postFeed post'>
           <div class='userHeader'>
-          <img src='${publicacion.photo}'>
-          <h3>${publicacion.user}</h3>
-          <h4 class='date'>${new Date(publicacion.date.seconds * 1000).toLocaleDateString('en-US')}</h4>
+          <img class='userPhoto' src='${publicacion.photo}'>
+          <h3 class='name'>${publicacion.user}</h3>
+          <div class='dateBox'>
+          <h4 class='date'>${publicacion.date.toDate().toLocaleDateString('en-US')}</h4> 
+          </div>
           </div>
             <textarea disabled class='textarea' id="${doc.id}" rows='4' >${publicacion.post}</textarea>
           <div class='divIconsFeed'>
@@ -121,6 +123,7 @@ export const Home = (onNavigate) => {
           </div>
         `
       });
+      //<h4 class='date'>${new Date(publicacion.date.seconds * 1000).toLocaleDateString('en-US')}</h4>
       postFeed.innerHTML = html;
       sectionTwo.appendChild(postFeed);
 
