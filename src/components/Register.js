@@ -82,10 +82,10 @@ export const Register = (onNavigate) => {
 
   //Aquí guardamos los datos del usuario en el localStorage
     const userData = {
-      nombre: valorInputNombre,
-      correo: valorInputCorreo,
-      contraseña: valorInputContraseña,
-      photo: '',
+      name: valorInputNombre,
+      email: valorInputCorreo,
+      password: valorInputContraseña,
+      photo: 'img/profilePhoto.png',
     };
 
     localStorage.setItem('user', JSON.stringify(userData));
@@ -98,7 +98,7 @@ export const Register = (onNavigate) => {
        //console.log(userCredential.user);
         // Signed in
         
-        // onNavigate("/home");
+         onNavigate("/home");
       })
       .catch((error) => {
         const errorCode = error.code;

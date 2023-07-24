@@ -29,7 +29,6 @@ export const Home = (onNavigate) => {
     `;
   articleHome.appendChild(sectionOne);
 
-  //Sección dos
   const sectionTwo = document.createElement('section');
   sectionTwo.setAttribute('class', 'sectionTwo');
 
@@ -63,7 +62,7 @@ export const Home = (onNavigate) => {
   `;
   articleHome.appendChild(sectionTwo);
 
-  //Lo que guarda el valor del textArea
+  // ----------------  Lo que guarda el valor del textArea  -----------------------------
   const publicacion = () => {
     const textArea = sectionTwo.querySelector('#textArea').value;
     const author = JSON.parse(localStorage.getItem('user'));  //transforma string a objeto
@@ -71,18 +70,14 @@ export const Home = (onNavigate) => {
     console.log(dateNow)
     console.log(author)
 
-    /*if(publicacion.photo === false){
-      return 'Usuaria'
-    }*/
+    savePost(author.name, textArea, author.photo, dateNow)
 
-    savePost(author.displayName, textArea, author.photoURL, dateNow)
-
-    .then(() => {
+      .then(() => {
       //console.log("adentro del then")
-      //window.location.reload()
-    })
+      window.location.reload()
+      });
     //console.log("afuera del then")
-  }
+  };
 
   const buttonPost = sectionTwo.querySelector('#buttonPost');
   buttonPost.addEventListener('click', publicacion);
@@ -115,7 +110,7 @@ export const Home = (onNavigate) => {
           </div>
             <textarea disabled class='textarea' id="${doc.id}" rows='4' >${publicacion.post}</textarea>
           <div class='divIconsFeed'>
-           <img class='iconoForm' src='img/like.png'>
+           <img class='iconoForm icon-like'  src='img/like.png'>
            <img class='iconoForm' src='img/comment.png'>
            <img class='iconoForm icon-delete' data-id="${doc.id}" src='img/borrar.png'>
            <img class='iconoForm icon-edit' data-id="${doc.id}" src='img/editar.png'>
@@ -123,7 +118,7 @@ export const Home = (onNavigate) => {
           </div>
         `
       });
-      //<h4 class='date'>${new Date(publicacion.date.seconds * 1000).toLocaleDateString('en-US')}</h4>
+
       postFeed.innerHTML = html;
       sectionTwo.appendChild(postFeed);
 
