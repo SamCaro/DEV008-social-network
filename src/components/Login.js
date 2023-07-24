@@ -82,9 +82,15 @@ export const Login = (onNavigate) => {
     const valorInputCorreo = inputCorreo.value;
     const valorInputContraseña = inputContraseña.value;
 
+    // Obtener los datos del usuario del localStorage
+    const userDataString = localStorage.getItem('user');
+    const userData = JSON.parse(userDataString);
+
+
     signIn(valorInputCorreo, valorInputContraseña)
-      .then((userCredential) => {
-        console.log(userCredential);
+      .then(() => {
+
+        console.log(userData);
         // Signed in
         // user = userCredential.user;
         // onNavigate('/home");
