@@ -1,5 +1,5 @@
 import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
-import { collection, addDoc, getDocs, deleteDoc, doc, getDoc, updateDoc, arrayUnion } from 'firebase/firestore';
+import { collection, addDoc, getDocs, deleteDoc, doc, getDoc, updateDoc, orderBy, query } from 'firebase/firestore';
 import { auth, db } from './configFirebase.js';
 
 
@@ -24,7 +24,12 @@ return addDoc(collection(db, "post"), {
 }
 
 //obtener posts 
-export const getPosts = () => getDocs(collection(db, 'post'));
+//export const getPosts = () => getDocs(collection(db, 'post'));
+export const getPosts = () => {
+  const postReference = collection(db, 'post');
+  const postOrdered = query(postReference, orderBy('date', 'desc'));
+  return getDocs(postOrdered);
+};
 
 //eliminar post
 export const deletePost = (id) => deleteDoc(doc(db, 'post', id));
