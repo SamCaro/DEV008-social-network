@@ -75,7 +75,7 @@ export const Home = (onNavigate) => {
       return 'Usuaria'
     }*/
 
-    savePost(author.displayName, textArea, author.photoURL, dateNow)
+    savePost(author.name, textArea, author.photo, dateNow)
 
     .then(() => {
       //console.log("adentro del then")

@@ -70,7 +70,14 @@ export const Login = (onNavigate) => {
   buttonLoginGoogle.addEventListener('click', () => { ingresarGoogle()
     .then((response) => {
       console.log(response.user)
-      localStorage.setItem('user', JSON.stringify(response.user))
+
+      const userData = {
+        name: response.user.displayName,
+        email: response.user.email,
+        photo: response.user.photoURL,
+      };
+
+      localStorage.setItem('user', JSON.stringify(userData));
       onNavigate('/home');
     })});
 
@@ -81,10 +88,6 @@ export const Login = (onNavigate) => {
   buttonLogin.addEventListener('click', () => {
     const valorInputCorreo = inputCorreo.value;
     const valorInputContraseña = inputContraseña.value;
-
-    // Obtener los datos del usuario del localStorage
-    const userDataString = localStorage.getItem('user');
-    const userData = JSON.parse(userDataString);
 
 
     signIn(valorInputCorreo, valorInputContraseña)
