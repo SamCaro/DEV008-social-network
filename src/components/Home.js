@@ -1,4 +1,6 @@
-import { savePost, getPosts, deletePost, getPost, updatePost } from '../lib/functionFirebase';
+import {
+  savePost, getPosts, deletePost, getPost, updatePost, addLike,
+} from '../lib/functionFirebase';
 
 export const Home = (onNavigate) => {
   const main = document.createElement('main');
@@ -62,21 +64,21 @@ export const Home = (onNavigate) => {
   `;
   articleHome.appendChild(sectionTwo);
 
-  // ----------------  Lo que guarda el valor del textArea  -----------------------------
+  // ---------------------  Lo que guarda el valor del textArea  -----------------------------
   const publicacion = () => {
     const textArea = sectionTwo.querySelector('#textArea').value;
-    const author = JSON.parse(localStorage.getItem('user'));  //transforma string a objeto
+    const author = JSON.parse(localStorage.getItem('user')); // transforma string a objeto
     const dateNow = new Date(Date.now());
-    console.log(dateNow)
-    console.log(author)
+    console.log(dateNow);
+    console.log(author);
 
-    savePost(author.name, textArea, author.photo, dateNow)
+    savePost(author.name, textArea, author.photo, dateNow, author.email)
 
       .then(() => {
-      //console.log("adentro del then")
-      window.location.reload()
+      // console.log("adentro del then")
+        window.location.reload()
       });
-    //console.log("afuera del then")
+    // console.log("afuera del then")
   };
 
   const buttonPost = sectionTwo.querySelector('#buttonPost');
@@ -84,21 +86,20 @@ export const Home = (onNavigate) => {
 
   const postFeed = document.createElement('div');
 
-  //querySnapchot datos que existen 
+  // querySnapchot datos que existen
   const querySnapshot = getPosts()
-    .then(querySnapshot => {
-  
+    .then((querySnapshot) => {
       /* if(querySnapshot.size > 0){
         postFeed.setAttribute('class', 'postFeed');
-       }*/
+       } */
 
       let html = '';
 
-      querySnapshot.forEach((doc) => { //cada elemento dentro del querySnapshot se llama "doc"
-        //console.log(doc.data());
-        //console.log(doc.id)
-        const publicacion = doc.data() //Lo que está adentro del QuerySnapshot
-        console.log(publicacion)
+      querySnapshot.forEach((doc) => { // cada elemento dentro del querySnapshot se llama "doc"
+        // console.log(doc.data());
+        // console.log(doc.id)
+        const publicacion = doc.data(); // Lo que está adentro del QuerySnapshot
+        // console.log(publicacion)
         html += `
           <div class='postFeed post'>
           <div class='userHeader'>
@@ -110,72 +111,86 @@ export const Home = (onNavigate) => {
           </div>
             <textarea disabled class='textarea' id="${doc.id}" rows='4' >${publicacion.post}</textarea>
           <div class='divIconsFeed'>
-           <img class='iconoForm icon-like'  src='img/like.png'>
+          ${publicacion.likes.length}<img class='iconoForm icon-like'  data-id="${doc.id}"  src='img/like.png'>
            <img class='iconoForm' src='img/comment.png'>
            <img class='iconoForm icon-delete' data-id="${doc.id}" src='img/borrar.png'>
            <img class='iconoForm icon-edit' data-id="${doc.id}" src='img/editar.png'>
           </div>
           </div>
-        `
+        `;
       });
 
       postFeed.innerHTML = html;
       sectionTwo.appendChild(postFeed);
 
-//Función para eliminar publicaciones
-      const iconsDelete = postFeed.querySelectorAll('.icon-delete');
-      iconsDelete.forEach((icon) => {
-        icon.addEventListener('click', ({ target: { dataset } }) => { //Dataset trae todos los atributos que empiecen con data. 
-          //console.log(e.target.dataset.id)
-          //console.log(dataset.id)
+      // --------------------  Función para eliminar publicaciones   -------------------------------
+
+      const iconDelete = postFeed.querySelectorAll('.icon-delete');
+      iconDelete.forEach((icon) => {
+        icon.addEventListener('click', ({ target: { dataset } }) => { // Dataset trae todos los atributos que empiecen con data.
+          // console.log(e.target.dataset.id)
+          // console.log(dataset.id)
           deletePost(dataset.id)
-          .then(() => {
+
+            .then(() => {
             window.location.reload()
-          });
+            });
         });
       });
 
-// Función para editar publicaciones
-const iconEdit = postFeed.querySelectorAll('.icon-edit');
-iconEdit.forEach((icon) => {
-  let editando = false;
+      // --------------------  Función para editar publicaciones   ---------------------------------
 
-  icon.addEventListener('click', async (e) => {
- //console.log(e.target.dataset.id);
- const personalIdPost = e.target.dataset.id;
- //const dataPost = await getPost(personalIdPost);
- //console.log(dataPost);
- //const postContent = dataPost.data();
- //console.log(postContent);
+      const iconEdit = postFeed.querySelectorAll('.icon-edit');
+      iconEdit.forEach((icon) => {
+        let editando = false;
 
- const textAreaEdit = document.getElementById(personalIdPost);
- //console.log(textAreaEdit);
+        icon.addEventListener('click', async (e) => {
+          // console.log(e.target.dataset.id);
+          const personalIdPost = e.target.dataset.id;
+          // const dataPost = await getPost(personalIdPost);
+          // console.log(personalIdPost);
+          // const postContent = dataPost.data();
+          // console.log(postContent);
 
-//Actualización de post
-if (!editando) {
-  console.log('El documento se puede editar.');
-  icon.src = 'img/update.png';
-  textAreaEdit.disabled = false;
-} else {
-  const newPostValue = textAreaEdit.value;
+          const textAreaEdit = document.getElementById(personalIdPost);
+          // console.log(textAreaEdit);
 
-  try {
-    await updatePost(personalIdPost, {
-      post: newPostValue,
-    })
+          // Actualización de post
+          if (!editando) {
+            console.log('El documento se puede editar.');
+            icon.src = 'img/update.png';
+            textAreaEdit.disabled = false;
+          } else {
+            const newPostValue = textAreaEdit.value;
 
-    console.log('El documento se actualizo corectamente.');
-    icon.src = 'img/check.png';
-    textAreaEdit.disabled = true;
+            try {
+              await updatePost(personalIdPost, {
+                post: newPostValue,
+              });
 
-  } catch (error) {
-    console.log('Error al obtener los datos:', error);
-  }
-}
-editando = !editando; // si uno es true el otro es falso.
-})
-})
+              console.log('El documento se actualizo corectamente.');
+              icon.src = 'img/check.png';
+              textAreaEdit.disabled = true;
+            } catch (error) {
+              console.log('Error al obtener los datos:', error);
+            }
+          }
+          editando = !editando; // si uno es true el otro es falso.
+        });
+      });
 
-  });
+      // --------------------  Función para likear publicaciones   ---------------------------------
+
+      const iconLike = postFeed.querySelectorAll('.icon-like');
+      iconLike.forEach((icon) => {
+        icon.addEventListener('click', async ({ target: { dataset } }) => {
+          const postId = dataset.id;
+          await addLike(postId);
+          console.log(postId);
+        });
+      });
+
+      // --------------- Función para quitar like de las publicaciones  ----------------
+    });
   return main;
 };
