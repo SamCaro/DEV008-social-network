@@ -1,5 +1,5 @@
 import {
-  savePost, getPosts, deletePost, getPost, updatePost, addLike,
+  savePost, getPosts, deletePost, getPost, updatePost, addLike, disLike,
 } from '../lib/functionFirebase';
 
 export const Home = (onNavigate) => {
@@ -76,7 +76,7 @@ export const Home = (onNavigate) => {
 
       .then(() => {
       // console.log("adentro del then")
-        window.location.reload()
+        window.location.reload();
       });
     // console.log("afuera del then")
   };
@@ -111,7 +111,7 @@ export const Home = (onNavigate) => {
           </div>
             <textarea disabled class='textarea' id="${doc.id}" rows='4' >${publicacion.post}</textarea>
           <div class='divIconsFeed'>
-          ${publicacion.likes.length}<img class='iconoForm icon-like'  data-id="${doc.id}"  src='img/like.png'>
+          ${publicacion.likes.length}<img class='iconoForm icon-like'  data-id="${doc.id}"  src='img/dislike.png'>
            <img class='iconoForm' src='img/comment.png'>
            <img class='iconoForm icon-delete' data-id="${doc.id}" src='img/borrar.png'>
            <img class='iconoForm icon-edit' data-id="${doc.id}" src='img/editar.png'>
@@ -133,7 +133,7 @@ export const Home = (onNavigate) => {
           deletePost(dataset.id)
 
             .then(() => {
-            window.location.reload()
+              window.location.reload();
             });
         });
       });
@@ -153,7 +153,7 @@ export const Home = (onNavigate) => {
           // console.log(postContent);
 
           const textAreaEdit = document.getElementById(personalIdPost);
-          // console.log(textAreaEdit);
+          console.log(textAreaEdit);
 
           // Actualización de post
           if (!editando) {
@@ -181,16 +181,64 @@ export const Home = (onNavigate) => {
 
       // --------------------  Función para likear publicaciones   ---------------------------------
 
+      // Código para gestionar el click en los botones de "like"
+
       const iconLike = postFeed.querySelectorAll('.icon-like');
+      iconLike.forEach((icon) => {
+        let liked = false;
+
+        icon.addEventListener('click', async ({ target: { dataset } }) => {
+          const postId = dataset.id;
+          if (!liked) {
+            addLike(postId);
+            icon.src = 'img/like.png';
+            console.log('El documento si tiene like.');
+          } else {
+            console.log('El documento no tiene like.');
+            try {
+              await disLike(postId);
+              icon.src = 'img/dislike.png';
+            } catch (error) {
+              console.log('Error al obtener los datos:', error);
+            }
+          }
+          liked = !liked;
+        });
+      });
+
+      /* const iconLike = postFeed.querySelectorAll('.icon-like');
+      iconLike.forEach((icon) => {
+
+        icon.addEventListener('click', async ({ target: { dataset } }) => {
+
+          const postId = dataset.id;
+
+          try {
+          await addLike(postId);
+          //console.log(postId);
+          icon.src = 'img/like.png';
+          icon.addEventListener('click', async ({ target: { dataset } }) => {
+            //const postId = dataset.id;
+           disLike(postId);
+            icon.src = 'img/dislike.png';
+
+          });
+        } catch (error) {
+          console.log('Error al obtener los datos:', error);
+
+        }
+
+      });
+    }); */
+
+      /* const iconLike = postFeed.querySelectorAll('.icon-like');
       iconLike.forEach((icon) => {
         icon.addEventListener('click', async ({ target: { dataset } }) => {
           const postId = dataset.id;
           await addLike(postId);
           console.log(postId);
         });
-      });
-
-      // --------------- Función para quitar like de las publicaciones  ----------------
+      }); */
     });
   return main;
 };
