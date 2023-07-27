@@ -55,8 +55,8 @@ export const getPost = (id) => getDoc(doc(db, 'post', id));
 export const updatePost = (id, newFields) => updateDoc(doc(db, 'post', id), newFields);
 
 // Dar like
-export const addLike = (idPost) => {
-  const postRef = doc(db, 'post', idPost);
+export const addLike = (id) => {
+  const postRef = doc(db, 'post', id);
   const userEmail = auth.currentUser.email;
 
   // Atomically add a new region to the "regions" array field.
@@ -67,8 +67,8 @@ export const addLike = (idPost) => {
 
 
 // Dar dislike
-export const disLike = (idPost) => {
-  const postRef = doc(db, 'post', idPost);
+export const disLike = (id) => {
+  const postRef = doc(db, 'post', id);
   const userEmail = auth.currentUser.email;
 
   // Atomically remove a region from the "regions" array field.
@@ -78,3 +78,12 @@ export const disLike = (idPost) => {
  
 };
 
+// Dar like
+// export const addLike = (id) => updateDoc (doc(db, 'post', id), {
+//   likes: arrayUnion(auth.currentUser.email)
+// });
+
+// Dar dislike
+// export const disLike = (id) => updateDoc (doc(db, 'post', id), {
+//   likes: arrayRemove(auth.currentUser.email),
+// })

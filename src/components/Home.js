@@ -1,3 +1,4 @@
+import { async } from 'regenerator-runtime';
 import {
   savePost, getPosts, deletePost, getPost, updatePost, addLike, disLike,
 } from '../lib/functionFirebase';
@@ -71,11 +72,12 @@ export const Home = (onNavigate) => {
     const dateNow = new Date(Date.now());
     console.log(dateNow);
     console.log(author);
+    console.log(author.email);
 
     savePost(author.name, textArea, author.photo, dateNow, author.email)
 
       .then(() => {
-      // console.log("adentro del then")
+        // console.log("adentro del then")
         window.location.reload();
       });
     // console.log("afuera del then")
@@ -181,64 +183,78 @@ export const Home = (onNavigate) => {
 
       // --------------------  Función para likear publicaciones   ---------------------------------
 
-      // Código para gestionar el click en los botones de "like"
 
-      const iconLike = postFeed.querySelectorAll('.icon-like');
-      iconLike.forEach((icon) => {
-        let liked = false;
+//       const { email } = JSON.parse(localStorage.getItem('user'));
+// console.log(email);
 
-        icon.addEventListener('click', async ({ target: { dataset } }) => {
-          const postId = dataset.id;
-          if (!liked) {
-            addLike(postId);
-            icon.src = 'img/like.png';
-            console.log('El documento si tiene like.');
-          } else {
-            console.log('El documento no tiene like.');
-            try {
-              await disLike(postId);
-              icon.src = 'img/dislike.png';
-            } catch (error) {
-              console.log('Error al obtener los datos:', error);
-            }
-          }
-          liked = !liked;
-        });
-      });
+// const iconLike = postFeed.querySelectorAll('.icon-like');
+// iconLike.forEach((icon) => {
+//   const id = icon.dataset.id;
 
-      /* const iconLike = postFeed.querySelectorAll('.icon-like');
-      iconLike.forEach((icon) => {
+//   getPost(id)
+//     .then((response) => {
+//       console.log(response.data().likes);
+//       console.log(typeof response.data().likes);
 
-        icon.addEventListener('click', async ({ target: { dataset } }) => {
+//       if (response.data().likes.includes(email)) {
+//         disLike(id)
+//           .then(() => {
+//             icon.src = 'img/dislike.png';
+//           })
+//           .catch((error) => {
+//             console.log('Error al remover el like:', error);
+//           });
+//       } else {
+//         addLike(id)
+//           .then(() => {
+//             icon.src = 'img/like.png';
+//           })
+//           .catch((error) => {
+//             console.log('Error al dar like:', error);
+//           });
+//       }
+//     })
+//     .catch((error) => {
+//       console.log('Error al obtener el post:', error);
+//     });
 
-          const postId = dataset.id;
+//   icon.addEventListener('click', (e) => {
+    
+//   });
+// });
 
-          try {
-          await addLike(postId);
-          //console.log(postId);
-          icon.src = 'img/like.png';
-          icon.addEventListener('click', async ({ target: { dataset } }) => {
-            //const postId = dataset.id;
-           disLike(postId);
-            icon.src = 'img/dislike.png';
 
-          });
-        } catch (error) {
-          console.log('Error al obtener los datos:', error);
 
-        }
 
-      });
-    }); */
+const iconLike = postFeed.querySelectorAll('.icon-like');
+iconLike.forEach((icon) => {
+  let liked = false;
 
-      /* const iconLike = postFeed.querySelectorAll('.icon-like');
-      iconLike.forEach((icon) => {
-        icon.addEventListener('click', async ({ target: { dataset } }) => {
-          const postId = dataset.id;
-          await addLike(postId);
-          console.log(postId);
-        });
-      }); */
+  icon.addEventListener('click', async ({ target: { dataset } }) => {
+    const postId = dataset.id;
+    if (!liked) {
+      addLike(postId);
+      icon.src = 'img/like.png';
+      console.log('El documento si tiene like.');
+    } else {
+      console.log('El documento no tiene like.');
+      try {
+        await disLike(postId);
+        icon.src = 'img/dislike.png';
+      } catch (error) {
+        console.log('Error al obtener los datos:', error);
+      }
+    }
+    liked = !liked;
+  });
+});
+
+
+
+
+
+
     });
   return main;
 };
+
