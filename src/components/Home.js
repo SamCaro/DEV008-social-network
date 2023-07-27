@@ -5,6 +5,14 @@ import {
 export const Home = (onNavigate) => {
   const main = document.createElement('main');
 
+  const author = JSON.parse(localStorage.getItem('user')); // transforma string a objeto
+  //si el autor no existe redirigirlo a login
+  if (!author) {
+    onNavigate('/')
+    return
+  }
+//impletar la seguridad borrar el localstorage al cerrar sesión
+
   const sectionHeaderHome = document.createElement('header');
   sectionHeaderHome.setAttribute('class', 'sectionHeaderHome');
   sectionHeaderHome.innerHTML = `
@@ -67,15 +75,20 @@ export const Home = (onNavigate) => {
   // ---------------------  Lo que guarda el valor del textArea  -----------------------------
   const publicacion = () => {
     const textArea = sectionTwo.querySelector('#textArea').value;
-    const author = JSON.parse(localStorage.getItem('user')); // transforma string a objeto
     const dateNow = new Date(Date.now());
-    console.log(dateNow);
-    console.log(author);
+    const author = JSON.parse(localStorage.getItem('user')); // transforma string a objeto
+    //si el autor no existe redirigirlo a login
+    if (!author) {
+      onNavigate('/')
+    }
+    // console.log(dateNow);
+    // console.log(author);
+    // console.log(author.email);
 
     savePost(author.name, textArea, author.photo, dateNow, author.email)
 
       .then(() => {
-      // console.log("adentro del then")
+        // console.log("adentro del then")
         window.location.reload();
       });
     // console.log("afuera del then")
@@ -180,8 +193,8 @@ export const Home = (onNavigate) => {
       });
 
       // --------------------  Función para likear publicaciones   ---------------------------------
+      //*******************************************ok github */
 
-      // Código para gestionar el click en los botones de "like"
 
       const iconLike = postFeed.querySelectorAll('.icon-like');
       iconLike.forEach((icon) => {
@@ -205,40 +218,52 @@ export const Home = (onNavigate) => {
           liked = !liked;
         });
       });
+      //*******************************************ok github */
 
-      /* const iconLike = postFeed.querySelectorAll('.icon-like');
-      iconLike.forEach((icon) => {
 
-        icon.addEventListener('click', async ({ target: { dataset } }) => {
 
-          const postId = dataset.id;
+      //       const { email } = JSON.parse(localStorage.getItem('user'));
+      // console.log(email);
 
-          try {
-          await addLike(postId);
-          //console.log(postId);
-          icon.src = 'img/like.png';
-          icon.addEventListener('click', async ({ target: { dataset } }) => {
-            //const postId = dataset.id;
-           disLike(postId);
-            icon.src = 'img/dislike.png';
+      // const iconLike = postFeed.querySelectorAll('.icon-like');
+      // iconLike.forEach((icon) => {
+      //   const id = icon.dataset.id;
 
-          });
-        } catch (error) {
-          console.log('Error al obtener los datos:', error);
+      //   getPost(id)
+      //     .then((response) => {
+      //       console.log(response.data().likes);
+      //       console.log(typeof response.data().likes);
 
-        }
+      //       if (response.data().likes.includes(email)) {
+      //         disLike(id)
+      //           .then(() => {
+      //             icon.src = 'img/dislike.png';
+      //           })
+      //           .catch((error) => {
+      //             console.log('Error al remover el like:', error);
+      //           });
+      //       } else {
+      //         addLike(id)
+      //           .then(() => {
+      //             icon.src = 'img/like.png';
+      //           })
+      //           .catch((error) => {
+      //             console.log('Error al dar like:', error);
+      //           });
+      //       }
+      //     })
+      //     .catch((error) => {
+      //       console.log('Error al obtener el post:', error);
+      //     });
 
-      });
-    }); */
+      //   icon.addEventListener('click', (e) => {
 
-      /* const iconLike = postFeed.querySelectorAll('.icon-like');
-      iconLike.forEach((icon) => {
-        icon.addEventListener('click', async ({ target: { dataset } }) => {
-          const postId = dataset.id;
-          await addLike(postId);
-          console.log(postId);
-        });
-      }); */
+      //   });
+      // });
+
+
+
     });
   return main;
 };
+
