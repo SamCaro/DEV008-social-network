@@ -117,6 +117,13 @@ export const Login = (onNavigate) => {
           textoErrorCode.textContent = 'Tu contraseña es invalida';
         }
 
+
+        const { email } = JSON.parse(localStorage.getItem('user'));
+        console.log(email);
+
+
+
+
         formularioHomeDiv.appendChild(textoErrorCode);
       });
   });
