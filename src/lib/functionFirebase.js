@@ -11,6 +11,7 @@ import {
   orderBy,
   query,
   arrayUnion,
+  arrayRemove,
 
 } from 'firebase/firestore';
 
@@ -54,26 +55,35 @@ export const getPost = (id) => getDoc(doc(db, 'post', id));
 export const updatePost = (id, newFields) => updateDoc(doc(db, 'post', id), newFields);
 
 // Dar like
-export const addLike = async (idPost) => {
-  const postRef = doc(db, 'post', idPost);
+export const addLike = (id) => {
+  const postRef = doc(db, 'post', id);
   const userEmail = auth.currentUser.email;
 
   // Atomically add a new region to the "regions" array field.
-  await updateDoc(postRef, {
+  updateDoc(postRef, {
     likes: arrayUnion(userEmail),
   });
 };
 
-/*
+
 // Dar dislike
-export const disLike = async (idPost) => {
-  const postRef = doc(db, 'post', idPost);
+export const disLike = (id) => {
+  const postRef = doc(db, 'post', id);
   const userEmail = auth.currentUser.email;
 
   // Atomically remove a region from the "regions" array field.
-  await updateDoc(postRef, {
+  updateDoc(postRef, {
     likes: arrayRemove(userEmail),
   });
  
 };
- */
+
+// Dar like
+// export const addLike = (id) => updateDoc (doc(db, 'post', id), {
+//   likes: arrayUnion(auth.currentUser.email)
+// });
+
+// Dar dislike
+// export const disLike = (id) => updateDoc (doc(db, 'post', id), {
+//   likes: arrayRemove(auth.currentUser.email),
+// })

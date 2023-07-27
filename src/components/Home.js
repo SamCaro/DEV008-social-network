@@ -1,9 +1,17 @@
 import {
-  savePost, getPosts, deletePost, getPost, updatePost, addLike,
+  savePost, getPosts, deletePost, getPost, updatePost, addLike, disLike,
 } from '../lib/functionFirebase';
 
 export const Home = (onNavigate) => {
   const main = document.createElement('main');
+
+  const author = JSON.parse(localStorage.getItem('user')); // transforma string a objeto
+  //si el autor no existe redirigirlo a login
+  if (!author) {
+    onNavigate('/')
+    return
+  }
+//impletar la seguridad borrar el localstorage al cerrar sesión
 
   const sectionHeaderHome = document.createElement('header');
   sectionHeaderHome.setAttribute('class', 'sectionHeaderHome');
@@ -67,16 +75,21 @@ export const Home = (onNavigate) => {
   // ---------------------  Lo que guarda el valor del textArea  -----------------------------
   const publicacion = () => {
     const textArea = sectionTwo.querySelector('#textArea').value;
-    const author = JSON.parse(localStorage.getItem('user')); // transforma string a objeto
     const dateNow = new Date(Date.now());
-    console.log(dateNow);
-    console.log(author);
+    const author = JSON.parse(localStorage.getItem('user')); // transforma string a objeto
+    //si el autor no existe redirigirlo a login
+    if (!author) {
+      onNavigate('/')
+    }
+    // console.log(dateNow);
+    // console.log(author);
+    // console.log(author.email);
 
     savePost(author.name, textArea, author.photo, dateNow, author.email)
 
       .then(() => {
-      // console.log("adentro del then")
-        window.location.reload()
+        // console.log("adentro del then")
+        window.location.reload();
       });
     // console.log("afuera del then")
   };
@@ -111,7 +124,7 @@ export const Home = (onNavigate) => {
           </div>
             <textarea disabled class='textarea' id="${doc.id}" rows='4' >${publicacion.post}</textarea>
           <div class='divIconsFeed'>
-          ${publicacion.likes.length}<img class='iconoForm icon-like'  data-id="${doc.id}"  src='img/like.png'>
+          ${publicacion.likes.length}<img class='iconoForm icon-like'  data-id="${doc.id}"  src='img/dislike.png'>
            <img class='iconoForm' src='img/comment.png'>
            <img class='iconoForm icon-delete' data-id="${doc.id}" src='img/borrar.png'>
            <img class='iconoForm icon-edit' data-id="${doc.id}" src='img/editar.png'>
@@ -133,7 +146,7 @@ export const Home = (onNavigate) => {
           deletePost(dataset.id)
 
             .then(() => {
-            window.location.reload()
+              window.location.reload();
             });
         });
       });
@@ -153,7 +166,7 @@ export const Home = (onNavigate) => {
           // console.log(postContent);
 
           const textAreaEdit = document.getElementById(personalIdPost);
-          // console.log(textAreaEdit);
+          console.log(textAreaEdit);
 
           // Actualización de post
           if (!editando) {
@@ -180,17 +193,77 @@ export const Home = (onNavigate) => {
       });
 
       // --------------------  Función para likear publicaciones   ---------------------------------
+      //*******************************************ok github */
+
 
       const iconLike = postFeed.querySelectorAll('.icon-like');
       iconLike.forEach((icon) => {
+        let liked = false;
+
         icon.addEventListener('click', async ({ target: { dataset } }) => {
           const postId = dataset.id;
-          await addLike(postId);
-          console.log(postId);
+          if (!liked) {
+            addLike(postId);
+            icon.src = 'img/like.png';
+            console.log('El documento si tiene like.');
+          } else {
+            console.log('El documento no tiene like.');
+            try {
+              await disLike(postId);
+              icon.src = 'img/dislike.png';
+            } catch (error) {
+              console.log('Error al obtener los datos:', error);
+            }
+          }
+          liked = !liked;
         });
       });
+      //*******************************************ok github */
 
-      // --------------- Función para quitar like de las publicaciones  ----------------
+
+
+      //       const { email } = JSON.parse(localStorage.getItem('user'));
+      // console.log(email);
+
+      // const iconLike = postFeed.querySelectorAll('.icon-like');
+      // iconLike.forEach((icon) => {
+      //   const id = icon.dataset.id;
+
+      //   getPost(id)
+      //     .then((response) => {
+      //       console.log(response.data().likes);
+      //       console.log(typeof response.data().likes);
+
+      //       if (response.data().likes.includes(email)) {
+      //         disLike(id)
+      //           .then(() => {
+      //             icon.src = 'img/dislike.png';
+      //           })
+      //           .catch((error) => {
+      //             console.log('Error al remover el like:', error);
+      //           });
+      //       } else {
+      //         addLike(id)
+      //           .then(() => {
+      //             icon.src = 'img/like.png';
+      //           })
+      //           .catch((error) => {
+      //             console.log('Error al dar like:', error);
+      //           });
+      //       }
+      //     })
+      //     .catch((error) => {
+      //       console.log('Error al obtener el post:', error);
+      //     });
+
+      //   icon.addEventListener('click', (e) => {
+
+      //   });
+      // });
+
+
+
     });
   return main;
 };
+
