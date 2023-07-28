@@ -1,9 +1,13 @@
 import {
-  savePost, getPosts, deletePost, getPost, updatePost, addLike, disLike,
+  savePost, getPosts, deletePost, updatePost, addLike, disLike, tiempoReal,
 } from '../lib/functionFirebase';
 
 export const Home = (onNavigate) => {
   const main = document.createElement('main');
+
+  tiempoReal().then((arr) => {
+    console.log(arr)
+  })
 
   const author = JSON.parse(localStorage.getItem('user')); // transforma string a objeto
   //si el autor no existe redirigirlo a login
@@ -102,17 +106,17 @@ export const Home = (onNavigate) => {
   // querySnapchot datos que existen
   // const querySnapshot = getPosts()
 
-  getPosts().then((querySnapshot) => {
+  getPosts().then((arr) => {
     /* if(querySnapshot.size > 0){
       postFeed.setAttribute('class', 'postFeed');
      } */
 
     let html = '';
 
-    querySnapshot.forEach((doc) => { // cada elemento dentro del querySnapshot se llama "doc"
+    arr.forEach((doc) => { // cada elemento dentro del arr se llama "doc"
       // console.log(doc.data());
       // console.log(doc.id)
-      const publicacion = doc.data(); // Lo que está adentro del QuerySnapshot
+      const publicacion = doc.data() // Lo que está adentro del arr
       // console.log(publicacion)
       html += `
           <div class='postFeed post'>
@@ -232,27 +236,36 @@ export const Home = (onNavigate) => {
     });
 
     // --------------------  Función para likear publicaciones   ---------------------------------
-
+const refresh = () => {
+  window.location.reload()
+}
     const iconLike = postFeed.querySelectorAll('.icon-like');
     iconLike.forEach((icon) => {
       let liked = false;
 
-      icon.addEventListener('click', async ({ target: { dataset } }) => {
+      icon.addEventListener('click', ({ target: { dataset } }) => {
+        //window.location.reload();
         const postId = dataset.id;
         if (!liked) {
-       addLike(postId);
+        
+          addLike(postId)
           icon.src = 'img/like.png';
-          console.log('El documento si tiene like.');
+          console.log('El documento si tiene like.')
+          try {
+        
+          } catch (error) {
+             console.log('Error al obtener los datos:', error);
+          }         
         } else {
           console.log('El documento no tiene like.');
-          try {
-            disLike(postId);
+          // try {
+             disLike(postId);
             icon.src = 'img/dislike.png';
-          } catch (error) {
-            console.log('Error al obtener los datos:', error);
-          }
+          // }
         }
+        refresh();
         liked = !liked;
+     
       });
     });
 

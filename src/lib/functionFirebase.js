@@ -12,12 +12,14 @@ import {
   query,
   arrayUnion,
   arrayRemove,
+  onSnapshot,
 
 } from 'firebase/firestore';
 
 
 
 import { auth, db } from './configFirebase.js';
+import { async } from 'regenerator-runtime';
 
 export const ingresarGoogle = () => {
   const provider = new GoogleAuthProvider();
@@ -37,15 +39,32 @@ export const savePost = (userName, publish, photoURL, dateNow, userEmail) => add
   email: userEmail,
   likes: [],
 });
-// console.log("Document written with ID: ", docRef.id);
+
 
 // obtener posts
-// export const getPosts = () => getDocs(collection(db, 'post'));
 export const getPosts = () => {
   const postReference = collection(db, 'post');
   const postOrdered = query(postReference, orderBy('date', 'desc'));
   return getDocs(postOrdered);
 };
+
+
+export const tiempoReal = async() => {
+  const arrayPost = [];
+  const q = query(collection(db, "post"))
+
+  const unsubscribe = onSnapshot(q, (querySnapshot) => {
+  
+    querySnapshot.forEach((doc) => {
+        arrayPost.push(doc.data().name);
+    });
+    console.log("Current cities in CA: ", arrayPost.join(", "));
+  });
+  return unsubscribe
+}
+
+
+
 
 // eliminar post
 export const deletePost = (id) => deleteDoc(doc(db, 'post', id));
@@ -57,12 +76,12 @@ export const getPost = (id) => getDoc(doc(db, 'post', id));
 export const updatePost = (id, newFields) => updateDoc(doc(db, 'post', id), newFields);
 
 // Dar like
-export const addLike = (id) => {
+export const addLike = async(id) => {
   const postRef = doc(db, 'post', id);
   const userEmail = auth.currentUser.email;
 
   // Atomically add a new region to the "regions" array field.
-  updateDoc(postRef, {
+  await updateDoc(postRef, {
     likes: arrayUnion(userEmail),
   });
 };
@@ -77,7 +96,7 @@ export const disLike = (id) => {
   updateDoc(postRef, {
     likes: arrayRemove(userEmail),
   });
- 
+
 };
 
 
