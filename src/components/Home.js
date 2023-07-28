@@ -5,9 +5,9 @@ import {
 export const Home = (onNavigate) => {
   const main = document.createElement('main');
 
-  tiempoReal().then((arr) => {
-    console.log(arr)
-  })
+  // tiempoReal().then((arr) => {
+  //   console.log(arr)
+  // })
 
   const author = JSON.parse(localStorage.getItem('user')); // transforma string a objeto
   //si el autor no existe redirigirlo a login
