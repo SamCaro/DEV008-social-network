@@ -16,10 +16,8 @@ import {
 
 } from 'firebase/firestore';
 
-
-
-import { auth, db } from './configFirebase.js';
 import { async } from 'regenerator-runtime';
+import { auth, db } from './configFirebase.js';
 
 export const ingresarGoogle = () => {
   const provider = new GoogleAuthProvider();
@@ -40,7 +38,6 @@ export const savePost = (userName, publish, photoURL, dateNow, userEmail) => add
   likes: [],
 });
 
-
 // obtener posts
 export const getPosts = () => {
   const postReference = collection(db, 'post');
@@ -48,23 +45,18 @@ export const getPosts = () => {
   return getDocs(postOrdered);
 };
 
-
-export const tiempoReal = async() => {
+export const tiempoReal = async () => {
   const arrayPost = [];
-  const q = query(collection(db, "post"))
+  const q = query(collection(db, 'post'));
 
   const unsubscribe = onSnapshot(q, (querySnapshot) => {
-  
     querySnapshot.forEach((doc) => {
-        arrayPost.push(doc.data().name);
+      arrayPost.push(doc.data().name);
     });
-    console.log("Current cities in CA: ", arrayPost.join(", "));
+    // console.log("Current cities in CA: ", arrayPost.join(", "));
   });
-  return unsubscribe
-}
-
-
-
+  return unsubscribe;
+};
 
 // eliminar post
 export const deletePost = (id) => deleteDoc(doc(db, 'post', id));
@@ -76,7 +68,7 @@ export const getPost = (id) => getDoc(doc(db, 'post', id));
 export const updatePost = (id, newFields) => updateDoc(doc(db, 'post', id), newFields);
 
 // Dar like
-export const addLike = async(id) => {
+export const addLike = async (id) => {
   const postRef = doc(db, 'post', id);
   const userEmail = auth.currentUser.email;
 
@@ -85,7 +77,6 @@ export const addLike = async(id) => {
     likes: arrayUnion(userEmail),
   });
 };
-
 
 // Dar dislike
 export const disLike = (id) => {
@@ -96,7 +87,4 @@ export const disLike = (id) => {
   updateDoc(postRef, {
     likes: arrayRemove(userEmail),
   });
-
 };
-
-
