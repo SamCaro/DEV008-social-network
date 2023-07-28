@@ -15,6 +15,8 @@ import {
 
 } from 'firebase/firestore';
 
+
+
 import { auth, db } from './configFirebase.js';
 
 export const ingresarGoogle = () => {
@@ -78,12 +80,4 @@ export const disLike = (id) => {
  
 };
 
-// Dar like
-// export const addLike = (id) => updateDoc (doc(db, 'post', id), {
-//   likes: arrayUnion(auth.currentUser.email)
-// });
 
-// Dar dislike
-// export const disLike = (id) => updateDoc (doc(db, 'post', id), {
-//   likes: arrayRemove(auth.currentUser.email),
-// })
