@@ -1,14 +1,13 @@
 import {
-  savePost, getPosts, deletePost, updatePost, addLike, disLike,
+  savePost, getPosts, deletePost, updatePost, addLike, disLike, 
 } from '../lib/functionFirebase';
 
 export const Home = (onNavigate) => {
   const main = document.createElement('main');
 
-  /*
   tiempoReal().then((arr) => {
-   console.log(arr);
-  });
+    console.log(arr)
+  })
 
   const author = JSON.parse(localStorage.getItem('user')); // transforma string a objeto
   // si el autor no existe redirigirlo a login
@@ -235,9 +234,9 @@ export const Home = (onNavigate) => {
     });
 
     // --------------------  Función para likear publicaciones   ---------------------------------
-    // const refresh = () => {
-    // window.location.reload()
-    // }
+const refresh = () => {
+  window.location.reload()
+}
     const iconLike = postFeed.querySelectorAll('.icon-like');
     iconLike.forEach((icon) => {
       let liked = false;
@@ -248,21 +247,22 @@ export const Home = (onNavigate) => {
         if (!liked) {
           addLike(postId);
           icon.src = 'img/like.png';
-          // console.log('El documento si tiene like.');
+          console.log('El documento si tiene like.')
           try {
-
+        
           } catch (error) {
-            // console.log('Error al obtener los datos:', error);
-          }
+             console.log('Error al obtener los datos:', error);
+          }         
         } else {
           // console.log('El documento no tiene like.');
           // try {
-          disLike(postId);
-          icon.src = 'img/dislike.png';
+             disLike(postId);
+            icon.src = 'img/dislike.png';
           // }
         }
-        // refresh();
+        refresh();
         liked = !liked;
+     
       });
     });
   });
