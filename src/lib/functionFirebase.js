@@ -12,7 +12,6 @@ import {
   query,
   arrayUnion,
   arrayRemove,
-  onSnapshot,
 
 } from 'firebase/firestore';
 
@@ -49,19 +48,19 @@ export const getPosts = () => {
 };
 
 
-export const tiempoReal = async() => {
-  const arrayPost = [];
-  const q = query(collection(db, "post"))
+// export const tiempoReal = async() => {
+//   const arrayPost = [];
+//   const q = query(collection(db, "post"))
 
-  const unsubscribe = onSnapshot(q, (querySnapshot) => {
+//   const unsubscribe = onSnapshot(q, (querySnapshot) => {
   
-    querySnapshot.forEach((doc) => {
-        arrayPost.push(doc.data().name);
-    });
-    console.log("Current cities in CA: ", arrayPost.join(", "));
-  });
-  return unsubscribe
-}
+//     querySnapshot.forEach((doc) => {
+//         arrayPost.push(doc.data().name);
+//     });
+//     console.log("Current cities in CA: ", arrayPost.join(", "));
+//   });
+//   return unsubscribe
+// }
 
 
 
@@ -76,12 +75,12 @@ export const getPost = (id) => getDoc(doc(db, 'post', id));
 export const updatePost = (id, newFields) => updateDoc(doc(db, 'post', id), newFields);
 
 // Dar like
-export const addLike = async(id) => {
+export const addLike = (id) => {
   const postRef = doc(db, 'post', id);
   const userEmail = auth.currentUser.email;
 
   // Atomically add a new region to the "regions" array field.
-  await updateDoc(postRef, {
+    return updateDoc(postRef, {
     likes: arrayUnion(userEmail),
   });
 };
@@ -93,7 +92,7 @@ export const disLike = (id) => {
   const userEmail = auth.currentUser.email;
 
   // Atomically remove a region from the "regions" array field.
-  updateDoc(postRef, {
+  return  updateDoc(postRef, {
     likes: arrayRemove(userEmail),
   });
 
