@@ -1,5 +1,5 @@
 import {
-  savePost, getPosts, deletePost, updatePost, addLike, disLike, tiempoReal,
+  savePost, getPosts, deletePost, updatePost, addLike, disLike, 
 } from '../lib/functionFirebase';
 
 export const Home = (onNavigate) => {
@@ -236,9 +236,9 @@ export const Home = (onNavigate) => {
     });
 
     // --------------------  Función para likear publicaciones   ---------------------------------
-const refresh = () => {
-  window.location.reload()
-}
+// const refresh = () => {
+//   window.location.reload()
+// }
     const iconLike = postFeed.querySelectorAll('.icon-like');
     iconLike.forEach((icon) => {
       let liked = false;
@@ -251,21 +251,19 @@ const refresh = () => {
           addLike(postId)
           icon.src = 'img/like.png';
           console.log('El documento si tiene like.')
-          try {
-        
-          } catch (error) {
-             console.log('Error al obtener los datos:', error);
-          }         
+               
         } else {
           console.log('El documento no tiene like.');
           // try {
              disLike(postId);
             icon.src = 'img/dislike.png';
+            //refresh();
           // }
         }
-        refresh();
+  
         liked = !liked;
-     
+       onNavigate('/home')
+       // window.location.reload()
       });
     });
 
