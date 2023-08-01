@@ -100,7 +100,6 @@ export const Register = (onNavigate) => {
       })
       .catch((error) => {
         const errorCode = error.code;
-        const errorMessage = error.message;
         // console.log('error en singIn', errorCode, errorMessage);
 
         // Eliminar mensaje de error anterior, si existe
