@@ -20,6 +20,7 @@ export const Login = (onNavigate) => {
   const inputContraseña = document.createElement('input');
   const buttonLogin = document.createElement('button');
   buttonLogin.textContent = 'Entrar';
+  buttonLogin.id = 'login';
   const buttonLoginGoogle = document.createElement('button');
   buttonLoginGoogle.textContent = 'Acceder con Google';
   buttonLoginGoogle.setAttribute('class', 'botonGoogle');
@@ -119,7 +120,7 @@ export const Login = (onNavigate) => {
           textoErrorCode.textContent = 'Tu contraseña es invalida';
         }
 
-        const { email } = JSON.parse(localStorage.getItem('user'));
+        // const { email } = JSON.parse(localStorage.getItem('user'));
         // console.log(email);
 
         formularioHomeDiv.appendChild(textoErrorCode);

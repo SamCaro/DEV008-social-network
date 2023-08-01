@@ -9,9 +9,9 @@ export const Home = (onNavigate) => {
     console.log(arr)
   }) */
 
-  const author = JSON.parse(localStorage.getItem('user')); // transforma string a objeto
+  const authors = JSON.parse(localStorage.getItem('user')); // transforma string a objeto
   // si el autor no existe redirigirlo a login
-  if (!author) {
+  if (!authors) {
     onNavigate('/');
     return;
   }
@@ -91,13 +91,13 @@ export const Home = (onNavigate) => {
     // console.log(author.email);
 
     const resultado = savePost(author.name, textArea, author.photo, dateNow, author.email);
-    console.log('deberia ver una promesa: ', resultado);
+    // console.log('deberia ver una promesa: ', resultado);
 
     resultado.then(() => {
-      console.log('adentro del then');
+      // console.log('adentro del then');
       // window.location.reload();
     });
-    console.log('afuera del then');
+    // console.log('afuera del then');
   };
 
   const buttonPost = sectionTwo.querySelector('#buttonPost');
@@ -180,7 +180,7 @@ export const Home = (onNavigate) => {
       };
 
       // When the user clicks on <button> (cancel), close the modal
-      buttonCancel.onclick = function ({ target: { dataset } }) {
+      buttonCancel.onclick = function () {
         modal.style.display = 'none';
       };
 
@@ -234,9 +234,6 @@ export const Home = (onNavigate) => {
     });
 
     // --------------------  Función para likear publicaciones   ---------------------------------
-    const refresh = () => {
-      // window.location.reload()
-    };
     const iconLike = postFeed.querySelectorAll('.icon-like');
     iconLike.forEach((icon) => {
       let liked = false;
@@ -259,11 +256,9 @@ export const Home = (onNavigate) => {
             // console.log('Error al obtener los datos:', error);
           }
         }
-
-        refresh();
         liked = !liked;
       });
     });
   });
-  return main;
+   return main;
 };
