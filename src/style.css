@@ -12,6 +12,7 @@ body {
 
 .logoPrincipal {
     width: 45%;
+  
 }
 
 .formularioHomeDiv {
@@ -44,15 +45,15 @@ button {
     height: 35px;
     background: #17554B;
     color: #E8F1F3;
-    font-size: 19px;
+    font-size: 100%;
 }
 
 .botonGoogle {
     background: #E8F1F3;
     background-image: url(img/logoGoogle.png);
     background-repeat: no-repeat;
-    background-size: 20px 20px;
-    background-position: 15px 5px;
+    background-size: 10%;
+    background-position: 8%;
     margin-bottom: 4%;
     color: #17554B;
 }
@@ -76,21 +77,6 @@ margin: 2% 0;
     display: inline-block;
     font-size: 18px;
 }
-
-/* Media Query para dispositivos con pantalla de hasta 768px */
-@media screen and (max-width: 768px) {
-    .contenedor{
-        flex-direction: column;
-        margin: 5%;
-    }
-
-    .formularioHomeDiv {
-      width: 85%; /* Reducir el ancho para adaptarse mejor a pantallas más pequeñas */
-      padding: 3%; /* Ajustar el espaciado interno */
-    }
-  }
-
-
 
 .sectionHeaderHome{
     display: flex;
@@ -135,7 +121,7 @@ margin: 2% 0;
     border-radius: 20px;
     text-align: center;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 20px;
+    font-size: 100%;
     padding: 5%;
 }
 
@@ -145,10 +131,13 @@ margin: 2% 0;
     align-items: center;
     margin-top: 2%;
 }
-.buttonSalir{
+.buttonExit{
     background: #bbdde4;
     color: #17554B;
     margin-left: 80%;
+}
+.buttonPost{
+    width: 30%;
 }
 
 .inputImagen{
@@ -241,8 +230,7 @@ footer {
     justify-content: center;
     background-color: #bbb6e1;
     color: #1A0D25 ;
-    padding: 10px 2px;
-    font-size: 10px;
+    font-size: 60%;
 }
 
 .userHeader{
@@ -270,4 +258,76 @@ footer {
 .modal {
     display: none;
 }
+
+/* Media Query para dispositivos con pantalla de hasta 768px */
+@media screen and (max-width: 768px) {
+    .contenedor{
+        flex-direction: column;
+        justify-content: center;
+        margin: 5%;
+    }
+
+    .logoHomeDiv{
+        margin-left: 35%;
+    }
+
+    .formularioHomeDiv {
+      width: 85%; /* Reducir el ancho para adaptarse mejor a pantallas más pequeñas */
+      height: 80%;
+      margin: 5%;
+    }
+
+    .separator{
+        align-items: center;
+    }
+
+    .lineRight, .lineLeft {
+        width: 4em;
+        margin: 0 1em; /* Espaciado horizontal entre los elementos lineRight y lineLeft */
+        display: inline-block;
+      }
+     button {
+        font-size: 70%;
+        align-items: center;
+     }
+
+     .sectionHeaderHome{
+      flex-direction: column;
+      align-items: center;
+      padding: 2% 0;
+     }
+
+     .logoHome {
+        width: 20%; 
+      }
+
+      .articleHome{
+        flex-direction: column;
+      }
+
+      .sectionOne{
+        display: flex;
+        width: 80%;
+        margin-left: 20%;
+    }
+      .sectionTwo{
+        margin-left: 10%;
+      }
+      .iconoForm{
+        width: 1rem;
+        margin: 2%;
+      }
+      .userHeader{
+        font-size: 65%;
+    }
+    .buttonPost, .buttonExit{
+        width: 30%;
+    }
+      footer {
+        display: flex;
+        flex-direction: column;
+       align-items: center;
+
+        }
+  }
 
