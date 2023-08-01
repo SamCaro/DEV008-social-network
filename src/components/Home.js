@@ -4,10 +4,10 @@ import {
 
 export const Home = (onNavigate) => {
   const main = document.createElement('main');
-
+/*
   tiempoReal().then((arr) => {
     console.log(arr)
-  })
+  })*/
 
   const author = JSON.parse(localStorage.getItem('user')); // transforma string a objeto
   // si el autor no existe redirigirlo a login
@@ -15,7 +15,7 @@ export const Home = (onNavigate) => {
     onNavigate('/');
     return;
   }
-  */
+  
 
   // impletar la seguridad borrar el localstorage al cerrar sesión
 
