@@ -25,6 +25,7 @@ export const Login = (onNavigate) => {
   buttonLoginGoogle.setAttribute('class', 'botonGoogle');
 
   const separator = document.createElement('section');
+  separator.setAttribute('class', 'separator');
   const lineaUno = document.createElement('hr');
   lineaUno.setAttribute('class', 'lineRight');
   const letra = document.createElement('p');
@@ -58,28 +59,30 @@ export const Login = (onNavigate) => {
   formularioHomeDiv.appendChild(buttonRegister);
 
   inputCorreo.addEventListener('keyup', (e) => {
-  const valueInputCorreo = e.target.value;
-  inputCorreo.value = valueInputCorreo.replace(/\s/g, ""); //espacios en blanco
+    const valueInputCorreo = e.target.value;
+    inputCorreo.value = valueInputCorreo.replace(/\s/g, ''); // espacios en blanco
   });
 
   inputContraseña.addEventListener('keyup', (e) => {
     const valueInputContraseña = e.target.value;
-   inputContraseña.value = valueInputContraseña.replace(/\w/g, "•"); //hider
-   });
+    inputContraseña.value = valueInputContraseña.replace(/\w/g, '•'); // hider
+  });
 
-  buttonLoginGoogle.addEventListener('click', () => { ingresarGoogle()
-    .then((response) => {
-      console.log(response.user)
+  buttonLoginGoogle.addEventListener('click', () => {
+    ingresarGoogle()
+      .then((response) => {
+      // console.log(response.user)
 
-      const userData = {
-        name: response.user.displayName,
-        email: response.user.email,
-        photo: response.user.photoURL,
-      };
+        const userData = {
+          name: response.user.displayName,
+          email: response.user.email,
+          photo: response.user.photoURL,
+        };
 
-      localStorage.setItem('user', JSON.stringify(userData));
-      onNavigate('/home');
-    })});
+        localStorage.setItem('user', JSON.stringify(userData));
+        onNavigate('/home');
+      });
+  });
 
   buttonRegister.addEventListener('click', () => {
     onNavigate('/register');
@@ -89,11 +92,10 @@ export const Login = (onNavigate) => {
     const valorInputCorreo = inputCorreo.value;
     const valorInputContraseña = inputContraseña.value;
 
-
     signIn(valorInputCorreo, valorInputContraseña)
       .then(() => {
 
-        console.log(userData);
+        // console.log(userData);
         // Signed in
         // user = userCredential.user;
         // onNavigate('/home");
@@ -117,12 +119,8 @@ export const Login = (onNavigate) => {
           textoErrorCode.textContent = 'Tu contraseña es invalida';
         }
 
-
         const { email } = JSON.parse(localStorage.getItem('user'));
-        console.log(email);
-
-
-
+        // console.log(email);
 
         formularioHomeDiv.appendChild(textoErrorCode);
       });

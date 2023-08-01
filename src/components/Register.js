@@ -59,19 +59,17 @@ export const Register = (onNavigate) => {
   formularioHomeDiv.appendChild(textoInicio);
   formularioHomeDiv.appendChild(buttonInicio);
 
-  //Quitar espacios en blanco
+  // Quitar espacios en blanco
   inputCorreo.addEventListener('keyup', (e) => {
-  const valueInputCorreo = e.target.value;
-  inputCorreo.value = valueInputCorreo.replace(/\s/g, "");
+    const valueInputCorreo = e.target.value;
+    inputCorreo.value = valueInputCorreo.replace(/\s/g, '');
   });
 
- //Reemplazar caracteres por hiden
- inputContraseña.addEventListener('keyup', (e) =>{
-  const valueInputContraseña = e.target.value;
- inputContraseña.value = valueInputContraseña.replace(/\w/g, "•");
- });
-
-
+  // Reemplazar caracteres por hiden
+  inputContraseña.addEventListener('keyup', (e) => {
+    const valueInputContraseña = e.target.value;
+    inputContraseña.value = valueInputContraseña.replace(/\w/g, '•');
+  });
 
   buttonInicio.addEventListener('click', () => onNavigate('/'));
 
@@ -80,7 +78,7 @@ export const Register = (onNavigate) => {
     const valorInputContraseña = inputContraseña.value;
     const valorInputNombre = inputNombre.value;
 
-  //Aquí guardamos los datos del usuario en el localStorage
+    // Aquí guardamos los datos del usuario en el localStorage
     const userData = {
       name: valorInputNombre,
       email: valorInputCorreo,
@@ -90,20 +88,20 @@ export const Register = (onNavigate) => {
 
     localStorage.setItem('user', JSON.stringify(userData));
 
-   console.log(userData);
-   
+    // console.log(userData);
+
     signIn(valorInputCorreo, valorInputContraseña, valorInputNombre)
       .then(() => {
-        //const user = userCredential.user;
-       //console.log(userCredential.user);
+        // const user = userCredential.user;
+        // console.log(userCredential.user);
         // Signed in
-        
-         onNavigate("/home");
+
+        onNavigate('/home');
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log('error en singIn', errorCode, errorMessage);
+        // console.log('error en singIn', errorCode, errorMessage);
 
         // Eliminar mensaje de error anterior, si existe
         const textoErrorCodeAnterior = document.querySelector('.textErrorSingIn');
