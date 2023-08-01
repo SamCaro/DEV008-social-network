@@ -28,14 +28,17 @@ export function signIn(email, password) {
 }
 
 // añadir documento a la coleccion y guardarlo
-export const savePost = (userName, publish, photoURL, dateNow, userEmail) => addDoc(collection(db, 'post'), {
-  user: userName,
-  post: publish,
-  photo: photoURL,
-  date: dateNow,
-  email: userEmail,
-  likes: [],
-});
+export function savePost(userName, publish, photoURL, dateNow, userEmail) {
+  return addDoc(collection(db, 'post'), {
+    user: userName,
+    post: publish,
+    photo: photoURL,
+    date: dateNow,
+    email: userEmail,
+    likes: [],
+  });
+}
+
 
 // obtener posts
 export const getPosts = () => {
