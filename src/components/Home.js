@@ -260,5 +260,6 @@ export const Home = (onNavigate) => {
       });
     });
   });
-   return main;
+  // eslint-disable-next-line consistent-return
+  return main;
 };
